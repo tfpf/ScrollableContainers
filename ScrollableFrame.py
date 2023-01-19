@@ -64,7 +64,7 @@ contains, move the frame to the top centre. Otherwise, move it to the top left.
             bbox = (0, 0, width, height)
         else:
             self._canvas.coords(self._window, (x, 0))
-            bbox = (0, 0, event.width - 2, height)
+            bbox = (0, 0, event.width, height)
         self._canvas.configure(scrollregion=bbox)
 
     ###########################################################################
