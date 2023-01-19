@@ -25,6 +25,7 @@ added to its `frame` attribute.
         self._canvas.bind_all('<Button-4>', self._on_mouse_scroll)
         self._canvas.bind_all('<Button-5>', self._on_mouse_scroll)
         self._canvas.bind_all('<MouseWheel>', self._on_mouse_scroll)
+        self._canvas.bind('<Configure>', self._on_canvas_configure)
         self._canvas.grid(row=0, column=0, sticky=tk.NSEW)
 
         xscrollbar = ttk.Scrollbar(self, orient=tk.HORIZONTAL, command=self._canvas.xview)
@@ -37,9 +38,8 @@ added to its `frame` attribute.
         self.grid_columnconfigure(0, weight=1)
 
         self.frame = ttk.Frame(self._canvas)
-        self._canvas.create_window((0, 0), window=self.frame, anchor=tk.NW)
+        self._window = self._canvas.create_window((0, 0), window=self.frame, anchor=tk.NW)
         self.frame.bind('<Configure>', self._on_frame_configure)
-        self._on_frame_configure()
 
         # Initially, the vertical scrollbar is a hair below its topmost
         # position. Move it to said position. No harm in doing the equivalent
@@ -49,14 +49,32 @@ added to its `frame` attribute.
 
     ###########################################################################
 
+    def _on_canvas_configure(self, event):
+        '''
+Called when the canvas is resized. If the canvas is wider than the frame it
+contains, move the frame horizontally to the centre. Otherwise, do nothing.
+
+:param event: Configure event.
+        '''
+
+        x = (event.width - self.frame.winfo_width()) / 2
+        if x < 0:
+            return
+        self._canvas.coords(self._window, (x, 0))
+        bbox = (0, 0, event.width, self.frame.winfo_height())
+        self._canvas.configure(scrollregion=bbox)
+
+    ###########################################################################
+
     def _on_frame_configure(self, event=None):
         '''
-Handle frame resize events by configuring the scrollable region.
+Called when the canvas is resized or scrolled. Set the scrollable region.
 
-:param event: Resize event.
+:param event: Configure event.
         '''
 
-        self._canvas.configure(scrollregion=self._canvas.bbox(tk.ALL))
+        bbox = self._canvas.bbox(tk.ALL)
+        self._canvas.configure(scrollregion=bbox)
 
     ###########################################################################
 
