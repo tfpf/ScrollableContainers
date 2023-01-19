@@ -11,45 +11,41 @@ __all__ = ['ScrollableFrame']
 
 class ScrollableFrame(ttk.Frame):
     '''
-Container with vertical scrolling capability. Widgets must be added to its
-`frame` attribute.
+Container with horizontal and vertical scrolling capabilities. Widgets must be
+added to its `frame` attribute.
     '''
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         # Scrollable canvas. This is the widget which actually manages
-        # scrolling.
+        # scrolling. Using the grid geometry manager ensures that the
+        # horizontal and vertical scrollbars do not meet.
         self._canvas = tk.Canvas(self)
-        self._canvas.bind_all('<MouseWheel>', self._on_mouse_scroll)
         self._canvas.bind_all('<Button-4>', self._on_mouse_scroll)
         self._canvas.bind_all('<Button-5>', self._on_mouse_scroll)
-        self._canvas.bind('<Configure>', self._on_canvas_configure)
-        self._canvas.pack(expand=True, fill=tk.BOTH, side=tk.LEFT)
+        self._canvas.bind_all('<MouseWheel>', self._on_mouse_scroll)
+        self._canvas.grid(row=0, column=0, sticky=tk.NSEW)
 
+        xscrollbar = ttk.Scrollbar(self, orient=tk.HORIZONTAL, command=self._canvas.xview)
+        xscrollbar.grid(row=1, column=0, sticky=tk.EW)
         yscrollbar = ttk.Scrollbar(self, orient=tk.VERTICAL, command=self._canvas.yview)
-        yscrollbar.pack(expand=False, fill=tk.Y, side=tk.RIGHT)
-        self._canvas.configure(yscrollcommand=yscrollbar.set)
+        yscrollbar.grid(row=0, column=1, sticky=tk.NS)
+        self._canvas.configure(xscrollcommand=xscrollbar.set, yscrollcommand=yscrollbar.set)
+
+        self.grid_rowconfigure(0, weight=1)
+        self.grid_columnconfigure(0, weight=1)
 
         self.frame = ttk.Frame(self._canvas)
-        self._window = self._canvas.create_window((0, 0), window=self.frame, anchor=tk.NW)
+        self._canvas.create_window((0, 0), window=self.frame, anchor=tk.NW)
         self.frame.bind('<Configure>', self._on_frame_configure)
         self._on_frame_configure()
 
-        # Initially, the scrollbar is a hair below its topmost position. Move
-        # it to said position.
+        # Initially, the vertical scrollbar is a hair below its topmost
+        # position. Move it to said position. No harm in doing the equivalent
+        # for the horizontal scrollbar.
+        self._canvas.xview_moveto(0)
         self._canvas.yview_moveto(0)
-
-    ###########################################################################
-
-    def _on_canvas_configure(self, event):
-        '''
-Handle canvas resize events by setting the size of the internal container.
-
-:param event: Resize event.
-        '''
-
-        self._canvas.itemconfigure(self._window, width=event.width)
 
     ###########################################################################
 
