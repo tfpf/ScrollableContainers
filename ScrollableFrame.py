@@ -57,11 +57,11 @@ contains, move the frame horizontally to the centre. Otherwise, do nothing.
 :param event: Configure event.
         '''
 
-        x = (event.width - self.frame.winfo_width()) / 2
+        x = (event.width - self.frame.winfo_width()) // 2
         if x < 0:
             return
         self._canvas.coords(self._window, (x, 0))
-        bbox = (0, 0, event.width, self.frame.winfo_height())
+        bbox = (0, 0, event.width - 2, self.frame.winfo_height())
         self._canvas.configure(scrollregion=bbox)
 
     ###########################################################################
