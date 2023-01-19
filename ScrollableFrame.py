@@ -39,7 +39,7 @@ added to its `frame` attribute.
 
         self.frame = ttk.Frame(self._canvas)
         self._window = self._canvas.create_window((0, 0), window=self.frame, anchor=tk.NW)
-        self.frame.bind('<Configure>', self._on_frame_configure)
+        self._on_frame_configure_id = self.frame.bind('<Configure>', self._on_frame_configure)
 
         # Initially, the vertical scrollbar is a hair below its topmost
         # position. Move it to said position. No harm in doing the equivalent
@@ -52,29 +52,35 @@ added to its `frame` attribute.
     def _on_canvas_configure(self, event):
         '''
 Called when the canvas is resized. If the canvas is wider than the frame it
-contains, move the frame horizontally to the centre. Otherwise, do nothing.
+contains, move the frame to the top centre. Otherwise, move it to the top left.
 
 :param event: Configure event.
         '''
 
-        x = (event.width - self.frame.winfo_width()) // 2
+        (width, height) = (self.frame.winfo_width(), self.frame.winfo_height())
+        x = (event.width - width) // 2
         if x < 0:
-            return
-        self._canvas.coords(self._window, (x, 0))
-        bbox = (0, 0, event.width - 2, self.frame.winfo_height())
+            self._canvas.coords(self._window, (0, 0))
+            bbox = (0, 0, width, height)
+        else:
+            self._canvas.coords(self._window, (x, 0))
+            bbox = (0, 0, event.width - 2, height)
         self._canvas.configure(scrollregion=bbox)
 
     ###########################################################################
 
     def _on_frame_configure(self, event=None):
         '''
-Called when the canvas is resized or scrolled. Set the scrollable region.
+Called when the canvas is resized or scrolled. Set the scrollable region, and
+then disable this callback, so that it does not interfere with the other
+callback.
 
 :param event: Configure event.
         '''
 
         bbox = self._canvas.bbox(tk.ALL)
         self._canvas.configure(scrollregion=bbox)
+        self.frame.unbind('<Configure>', self._on_frame_configure_id)
 
     ###########################################################################
 
