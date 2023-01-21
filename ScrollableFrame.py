@@ -30,7 +30,7 @@ added to its `frame` attribute.
 
         xscrollbar = ttk.Scrollbar(self, orient=tk.HORIZONTAL, command=self._canvas.xview)
         xscrollbar.grid(row=1, column=0, sticky=tk.EW)
-        yscrollbar = ttk.Scrollbar(self, orient=tk.VERTICAL, command=self._canvas.yview)
+        yscrollbar = ttk.Scrollbar(self, orient=tk.VERTICAL, command=self._yview)
         yscrollbar.grid(row=0, column=1, sticky=tk.NS)
         self._canvas.configure(xscrollcommand=xscrollbar.set, yscrollcommand=yscrollbar.set)
 
@@ -46,6 +46,17 @@ added to its `frame` attribute.
         # for the horizontal scrollbar.
         self._canvas.xview_moveto(0)
         self._canvas.yview_moveto(0)
+
+    ###########################################################################
+
+    def _yview(self, *args):
+        '''
+Called when the vertical scrollbar is moved. Scroll the view only if it is not
+completely visible.
+        '''
+
+        if self._canvas.yview() != (0.0, 1.0):
+            self._canvas.yview(*args)
 
     ###########################################################################
 
@@ -86,25 +97,24 @@ callback.
 
     def _on_mouse_scroll(self, event):
         '''
-Handle mouse scroll events.
+Called when the mouse wheel is scrolled. Scroll the view only if it is not
+completely visible.
 
 :param event: Scroll event.
         '''
 
-        # If we are viewing the top of the container, we shouldn't be able to
-        # scroll up. However, if the container has some empty space at the
-        # bottom, scrolling up still works. Prevent that from happening by
-        # checking the current view before changing it.
-        topmost = self._canvas.yview()[0] == 0
+        if self._canvas.yview() == (0.0, 1.0):
+            return
+
         system = platform.system()
         if system == 'Linux':
-            if event.num == 4 and not topmost:
+            if event.num == 4:
                 self._canvas.yview_scroll(-1, tk.UNITS)
             elif event.num == 5:
                 self._canvas.yview_scroll(1, tk.UNITS)
-        elif system == 'Darwin' and (event.delta <= 0 or event.delta > 0 and not topmost):
+        elif system == 'Darwin':
             self._canvas.yview_scroll(int(-1 * event.delta), tk.UNITS)
-        elif system == 'Windows' and (event.delta <= 0 or event.delta > 0 and not topmost):
+        elif system == 'Windows':
             self._canvas.yview_scroll(int(-1 * event.delta / 120), tk.UNITS)
 
 ###############################################################################

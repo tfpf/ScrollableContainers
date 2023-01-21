@@ -4,7 +4,7 @@ your application window is too large for your client's screen. Making the conten
 least in Tkinter. Especially not after you have already written a lot of code to draw the content.
 
 You can use `ScrollableFrame` to reduce headaches. It automatically handles horizontal and vertical scrolling. It isn't
-perfect (vertical scrolling is rough around the edges), but it works reasonably well.
+perfect (horizontal scrolling is rough around the edges), but it works reasonably well.
 
 ### TL;DR
 Add widgets to the `frame` attribute of a `ScrollableFrame` object.
