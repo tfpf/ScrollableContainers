@@ -11,7 +11,7 @@ Add widgets to the `frame` attribute of a `ScrollableFrame` object.
 ```python
 import tkinter as tk
 
-from ScrollableFrame import *
+from ScrollableFrame import ScrollableFrame
 
 root = tk.Tk()
 scrollable_frame = ScrollableFrame(root)
