@@ -5,11 +5,11 @@ import platform
 import tkinter as tk
 import tkinter.ttk as ttk
 
-__all__ = ['ScrollableFrame']
+__all__ = ['ScrollableFrameTk']
 
 ###############################################################################
 
-class ScrollableFrame(ttk.Frame):
+class ScrollableFrameTk(ttk.Frame):
     '''
 Container with horizontal and vertical scrolling capabilities. Widgets must be
 added to its `frame` attribute.
@@ -125,10 +125,10 @@ Demonstrate how to use a scrollable frame.
     '''
 
     root = tk.Tk()
-    root.title('`ScrollableFrame` Demo')
+    root.title('`ScrollableFrameTk` Demo')
 
     # Create a scrollable frame.
-    scrollable_frame = ScrollableFrame(root)
+    scrollable_frame = ScrollableFrameTk(root)
 
     # Add widgets to the `frame` attribute of the scrollable frame, not to the
     # scrollable frame itself.
