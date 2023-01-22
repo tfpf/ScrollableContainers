@@ -51,8 +51,8 @@ added to its `frame` attribute.
 
     def _yview(self, *args):
         '''
-Called when the vertical scrollbar is moved. Scroll the view only if it is not
-completely visible.
+Called when the vertical scrollbar is moved. Called indirectly when the mouse
+wheel is scrolled. Scroll the view only if it is not completely visible.
         '''
 
         if self._canvas.yview() != (0.0, 1.0):
@@ -97,25 +97,21 @@ callback.
 
     def _on_mouse_scroll(self, event):
         '''
-Called when the mouse wheel is scrolled. Scroll the view only if it is not
-completely visible.
+Called when the mouse wheel is scrolled.
 
 :param event: Scroll event.
         '''
 
-        if self._canvas.yview() == (0.0, 1.0):
-            return
-
         system = platform.system()
         if system == 'Linux':
             if event.num == 4:
-                self._canvas.yview_scroll(-1, tk.UNITS)
+                self._yview(tk.SCROLL, -1, tk.UNITS)
             elif event.num == 5:
-                self._canvas.yview_scroll(1, tk.UNITS)
+                self._yview(tk.SCROLL, 1, tk.UNITS)
         elif system == 'Darwin':
-            self._canvas.yview_scroll(int(-1 * event.delta), tk.UNITS)
+            self._yview(tk.SCROLL, int(-1 * event.delta), tk.UNITS)
         elif system == 'Windows':
-            self._canvas.yview_scroll(int(-1 * event.delta / 120), tk.UNITS)
+            self._yview(tk.SCROLL, int(-1 * event.delta / 120), tk.UNITS)
 
 ###############################################################################
 
