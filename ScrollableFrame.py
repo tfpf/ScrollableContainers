@@ -28,7 +28,7 @@ added to its `frame` attribute.
         self._canvas.bind('<Configure>', self._on_canvas_configure)
         self._canvas.grid(row=0, column=0, sticky=tk.NSEW)
 
-        xscrollbar = ttk.Scrollbar(self, orient=tk.HORIZONTAL, command=self._canvas.xview)
+        xscrollbar = ttk.Scrollbar(self, orient=tk.HORIZONTAL, command=self._xview)
         xscrollbar.grid(row=1, column=0, sticky=tk.EW)
         yscrollbar = ttk.Scrollbar(self, orient=tk.VERTICAL, command=self._yview)
         yscrollbar.grid(row=0, column=1, sticky=tk.NS)
@@ -39,7 +39,7 @@ added to its `frame` attribute.
 
         self.frame = ttk.Frame(self._canvas)
         self._window = self._canvas.create_window((0, 0), window=self.frame, anchor=tk.NW)
-        self._on_frame_configure_id = self.frame.bind('<Configure>', self._on_frame_configure)
+        self.frame.bind('<Configure>', self._on_frame_configure)
 
         # Initially, the vertical scrollbar is a hair below its topmost
         # position. Move it to said position. No harm in doing the equivalent
@@ -49,10 +49,36 @@ added to its `frame` attribute.
 
     ###########################################################################
 
+    def _xview(self, *args, width=None):
+        '''
+Called when the horizontal scrollbar is moved. Called indirectly when the
+canvas or frame is resized. Scroll the view only if it is not completely
+visible. Otherwise, move the scrollbar to such a position that the contents of
+the canvas are horizontally centred.
+
+:param args: Tuple which can be passed to `tkinter.Canvas.xview`.
+:param width: Width of the canvas.
+        '''
+
+        if self._canvas.xview() != (0.0, 1.0):
+            self._canvas.xview(*args)
+        else:
+            width = width or self._canvas.winfo_width()
+
+            # To move the contents of the canvas to the centre, I call this
+            # function with a negative argument. I don't know if this hack is
+            # supported (because the Tcl/Tk manual pages say that it must be a
+            # fraction between 0 and 1), but it works!
+            self._canvas.xview_moveto((1 - width / self.frame.winfo_width()) / 2)
+
+    ###########################################################################
+
     def _yview(self, *args):
         '''
 Called when the vertical scrollbar is moved. Called indirectly when the mouse
 wheel is scrolled. Scroll the view only if it is not completely visible.
+
+:param args: Tuple which can be passed to `tkinter.Canvas.yview`.
         '''
 
         if self._canvas.yview() != (0.0, 1.0):
@@ -62,42 +88,36 @@ wheel is scrolled. Scroll the view only if it is not completely visible.
 
     def _on_canvas_configure(self, event):
         '''
-Called when the canvas is resized. If the canvas is wider than the frame it
-contains, move the frame to the top centre. Otherwise, move it to the top left.
+Called when the canvas is resized. Update the scrollable region. Perform a
+dummy horizontal scroll in order to trigger horizontal realignment.
 
 :param event: Configure event.
         '''
 
-        (width, height) = (self.frame.winfo_width(), self.frame.winfo_height())
-        x = (event.width - width) // 2
-        if x < 0:
-            self._canvas.coords(self._window, (0, 0))
-            bbox = (0, 0, width, height)
-        else:
-            self._canvas.coords(self._window, (x, 0))
-            bbox = (0, 0, event.width, height)
-        self._canvas.configure(scrollregion=bbox)
+        self._canvas.configure(scrollregion=self._canvas.bbox(tk.ALL))
+        self._xview(tk.SCROLL, 0, tk.UNITS, width=event.width)
 
     ###########################################################################
 
-    def _on_frame_configure(self, event=None):
+    def _on_frame_configure(self, event):
         '''
-Called when the canvas is resized or scrolled. Set the scrollable region, and
-then disable this callback, so that it does not interfere with the other
-callback.
+Called when the frame is resized. Update the scrollable region. Perform a dummy
+horizontal scroll in order to trigger horizontal realignment.
+
+This method is necessary to handle updates which may occur after the GUI loop
+has started.
 
 :param event: Configure event.
         '''
 
-        bbox = self._canvas.bbox(tk.ALL)
-        self._canvas.configure(scrollregion=bbox)
-        self.frame.unbind('<Configure>', self._on_frame_configure_id)
+        self._canvas.configure(scrollregion=self._canvas.bbox(tk.ALL))
+        self._xview(tk.SCROLL, 0, tk.UNITS)
 
     ###########################################################################
 
     def _on_mouse_scroll(self, event):
         '''
-Called when the mouse wheel is scrolled.
+Called when the mouse wheel is scrolled. Asks to scroll the view vertically.
 
 :param event: Scroll event.
         '''

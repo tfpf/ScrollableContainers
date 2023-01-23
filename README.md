@@ -3,8 +3,9 @@ If you have developed GUI applications, you probably know the pain of designing 
 your application window is too large for your client's screen. Making the content scrollable is not straightforward, at
 least in Tkinter. Especially not after you have already written a lot of code to draw the content.
 
-You can use `ScrollableFrameTk` to reduce headaches. It automatically handles horizontal and vertical scrolling. It
-isn't perfect (horizontal scrolling is rough around the edges), but it works reasonably well.
+You can use `ScrollableFrameTk` to reduce headaches. It automatically handles horizontal and vertical scrolling, and
+doesn't break when the window is resized. If the window is wider than its contents, the latter will be horizontally
+centred.
 
 ### TL;DR
 Add widgets to the `frame` attribute of a `ScrollableFrameTk` object.
