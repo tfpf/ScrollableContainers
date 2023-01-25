@@ -51,10 +51,11 @@ added to its `frame` attribute.
 
     def _xview(self, *args, width=None):
         '''
-Called when the horizontal scrollbar is moved. Called indirectly when the
-canvas or frame is resized. Scroll the view only if it is not completely
-visible. Otherwise, move the scrollbar to such a position that the contents of
-the canvas are horizontally centred.
+Called when the horizontal scrollbar is moved. Called by some other callbacks
+(`_on_canvas_configure` and `_on_frame_configure`) whenever it is necessary to
+horizontally realign the contents of the canvas. Scroll the view only if the
+contents are not completely visible. Otherwise, move the scrollbar to such a
+position that they are horizontally centred.
 
 :param args: Tuple which can be passed to `tkinter.Canvas.xview`.
 :param width: Width of the canvas.
@@ -88,8 +89,7 @@ wheel is scrolled. Scroll the view only if it is not completely visible.
 
     def _on_canvas_configure(self, event):
         '''
-Called when the canvas is resized. Update the scrollable region. Perform a
-dummy horizontal scroll in order to trigger horizontal realignment.
+Called when the canvas is resized. Update the scrollable region.
 
 :param event: Configure event.
         '''
@@ -101,8 +101,8 @@ dummy horizontal scroll in order to trigger horizontal realignment.
 
     def _on_frame_configure(self, event):
         '''
-Called when the frame is resized. Update the scrollable region. Perform a dummy
-horizontal scroll in order to trigger horizontal realignment.
+Called when the frame is resized or the canvas is scrolled. Update the
+scrollable region.
 
 This method is necessary to handle updates which may occur after the GUI loop
 has started.
