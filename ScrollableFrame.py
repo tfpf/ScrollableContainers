@@ -40,6 +40,7 @@ added to its `frame` attribute.
         self.frame = ttk.Frame(self._canvas)
         self._window = self._canvas.create_window((0, 0), window=self.frame, anchor=tk.NW)
         self.frame.bind('<Configure>', self._on_frame_configure)
+        self._on_frame_expose_id = self.frame.bind('<Expose>', self._on_frame_expose)
 
         # Initially, the vertical scrollbar is a hair below its topmost
         # position. Move it to said position. No harm in doing the equivalent
@@ -99,7 +100,7 @@ Called when the canvas is resized. Update the scrollable region.
 
     ###########################################################################
 
-    def _on_frame_configure(self, event):
+    def _on_frame_configure(self, event=None):
         '''
 Called when the frame is resized or the canvas is scrolled. Update the
 scrollable region.
@@ -112,6 +113,26 @@ has started.
 
         self._canvas.configure(scrollregion=self._canvas.bbox(tk.ALL))
         self._xview(tk.SCROLL, 0, tk.UNITS)
+
+    ###########################################################################
+
+    def _on_frame_expose(self, event=None):
+        '''
+Called when the frame becomes visible. Call `_on_frame_configure` and then
+disable this callback.
+
+This method is necessary because if a scrollable frame is put into, say, a
+notebook (as opposed to a toplevel window), and the canvas is wider than its
+contents, then (on Linux) the contents are not initially horizontally centred.
+(This issue is not observed on Windows, probably because its frame configure
+events work differently.) Hence, I try to centre the contents again upon an
+expose event.
+
+:param event: Expose event.
+        '''
+
+        self._on_frame_configure()
+        self.frame.unbind('<Expose>', self._on_frame_expose_id)
 
     ###########################################################################
 
