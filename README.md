@@ -24,3 +24,6 @@ root.mainloop()
 ```
 
 See also [`examples.py`](examples.py) for more.
+
+`'<Button-4>'`, `'<Button-5>'` and `'<MouseWheel>'` are bound to all widgets using `bind_all` to handle mouse wheel
+scroll events. Do not `unbind_all` (or `bind_all` another function to) these three sequences!
