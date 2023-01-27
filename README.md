@@ -23,4 +23,4 @@ scrollable_frame.pack(expand=True, fill=tk.BOTH)
 root.mainloop()
 ```
 
-See also the `main` function in [`ScrollableFrame.py`](ScrollableFrame.py) for another example.
+See also [`examples.py`](examples.py) for more.

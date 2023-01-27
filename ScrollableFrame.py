@@ -180,30 +180,3 @@ Called when the mouse wheel is scrolled. Ask to scroll the view vertically.
             self._yview(tk.SCROLL, int(-1 * event.delta), tk.UNITS)
         elif system == 'Windows':
             self._yview(tk.SCROLL, int(-1 * event.delta / 120), tk.UNITS)
-
-###############################################################################
-
-def main():
-    '''
-Demonstrate how to use a scrollable frame.
-    '''
-
-    root = tk.Tk()
-    root.title('`ScrollableFrameTk` Demo')
-
-    # Create a scrollable frame.
-    scrollable_frame = ScrollableFrameTk(root)
-
-    # Add widgets to the `frame` attribute of the scrollable frame, not to the
-    # scrollable frame itself.
-    dim = 10
-    for (i, j) in itertools.product(range(dim), range(dim)):
-        ttk.Label(scrollable_frame.frame, text=f'Label\n({i}, {j})').grid(row=i, column=j, padx=10, pady=10)
-
-    scrollable_frame.pack(expand=True, fill=tk.BOTH)
-    root.mainloop()
-
-###############################################################################
-
-if __name__ == '__main__':
-    main()
