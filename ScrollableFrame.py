@@ -22,9 +22,8 @@ added to its `frame` attribute.
         # scrolling. Using the grid geometry manager ensures that the
         # horizontal and vertical scrollbars do not meet.
         self._canvas = tk.Canvas(self)
-        self._canvas.bind_all('<Button-4>', self._on_mouse_scroll)
-        self._canvas.bind_all('<Button-5>', self._on_mouse_scroll)
-        self._canvas.bind_all('<MouseWheel>', self._on_mouse_scroll)
+        self._canvas.bind('<Enter>', self._on_enter)
+        self._canvas.bind('<Leave>', self._on_leave)
         self._canvas.bind('<Configure>', self._on_canvas_configure)
         self._canvas.grid(row=0, column=0, sticky=tk.NSEW)
 
@@ -136,9 +135,37 @@ expose event.
 
     ###########################################################################
 
+    def _on_enter(self, event=None):
+        '''
+Called when the mouse pointer enters the canvas. Set up vertical scrolling with
+the mouse wheel.
+
+:param event: Enter event.
+        '''
+
+        self._on_mouse_scroll_up_linux = self.bind_all('<Button-4>', self._on_mouse_scroll)
+        self._on_mouse_scroll_down_linux = self.bind_all('<Button-5>', self._on_mouse_scroll)
+        self._on_mouse_scroll_macos_windows = self.bind_all('<MouseWheel>', self._on_mouse_scroll)
+
+    ###########################################################################
+
+    def _on_leave(self, event=None):
+        '''
+Called when the mouse pointer leaves the canvas. Unset vertical scrolling with
+the mouse wheel.
+
+:param event: Leave event.
+        '''
+
+        self.unbind_all('<Button-4>')
+        self.unbind_all('<Button-5>')
+        self.unbind_all('<MouseWheel>')
+
+    ###########################################################################
+
     def _on_mouse_scroll(self, event):
         '''
-Called when the mouse wheel is scrolled. Asks to scroll the view vertically.
+Called when the mouse wheel is scrolled. Ask to scroll the view vertically.
 
 :param event: Scroll event.
         '''
