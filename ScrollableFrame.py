@@ -1,6 +1,5 @@
 #! /usr/bin/python3 -B
 
-import itertools
 import platform
 import tkinter as tk
 import tkinter.ttk as ttk
