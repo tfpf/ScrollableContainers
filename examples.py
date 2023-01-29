@@ -4,7 +4,7 @@ import itertools
 import tkinter as tk
 import tkinter.ttk as ttk
 
-from ScrollableFrame import ScrollableFrameTk
+from ScrollableFrame.Tk import ScrollableFrameTk
 
 ###############################################################################
 

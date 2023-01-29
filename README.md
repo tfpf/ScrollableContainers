@@ -9,12 +9,14 @@ You can use `ScrollableFrameTk` to reduce headaches. It automatically handles ho
 doesn't break when the window is resized. If the window is wider than its contents, the latter will be horizontally
 centred. Also, scrolling the mouse wheel vertically scrolls the window.
 
+This project is not connected with [the `ScrollableFrame` PyPI package](https://pypi.org/project/ScrollableFrame/).
+
 ### TL;DR
 Add widgets to the `frame` attribute of a `ScrollableFrameTk` object.
 ```python
 import tkinter as tk
 
-from ScrollableFrame import ScrollableFrameTk
+from ScrollableFrame.Tk import ScrollableFrameTk
 
 root = tk.Tk()
 scrollable_frame = ScrollableFrameTk(root)
