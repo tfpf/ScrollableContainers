@@ -176,6 +176,6 @@ Called when the mouse wheel is scrolled. Ask to scroll the view vertically.
             elif event.num == 5:
                 self._yview(tk.SCROLL, 1, tk.UNITS)
         elif system == 'Darwin':
-            self._yview(tk.SCROLL, int(-1 * event.delta), tk.UNITS)
+            self._yview(tk.SCROLL, -event.delta, tk.UNITS)
         elif system == 'Windows':
-            self._yview(tk.SCROLL, int(-1 * event.delta / 120), tk.UNITS)
+            self._yview(tk.SCROLL, -event.delta // 120, tk.UNITS)
