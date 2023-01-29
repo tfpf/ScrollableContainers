@@ -7,7 +7,8 @@ least in Tkinter. Especially not after you have already written a lot of code to
 
 You can use `ScrollableFrameTk` to reduce headaches. It automatically handles horizontal and vertical scrolling, and
 doesn't break when the window is resized. If the window is wider than its contents, the latter will be horizontally
-centred. Also, scrolling the mouse wheel vertically scrolls the window.
+centred. Also, scrolling the mouse wheel vertically scrolls the window; if shift is held down, it horizontally scrolls
+the window. Two-finger swipe gestures on the touchpad can also be used to scroll horizontally and vertically.
 
 This project is not connected with [the `ScrollableFrame` PyPI package](https://pypi.org/project/ScrollableFrame/).
 

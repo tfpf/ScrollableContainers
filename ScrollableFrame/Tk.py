@@ -164,18 +164,28 @@ the mouse wheel.
 
     def _on_mouse_scroll(self, event):
         '''
-Called when the mouse wheel is scrolled. Ask to scroll the view vertically.
+Called when the mouse wheel is scrolled or a two-finger swipe gesture is
+performed on the touchpad. Ask to scroll the view horizontally if Shift is held
+down (equivalent to a horizontal two-finger swipe) and vertically otherwise
+(equivalent to a vertical two-finger swipe).
 
 :param event: Scroll event.
         '''
 
+        # Select which method to call based on whether Shift was held down.
+        # This is indicated by the LSB of the state.
+        if event.state & 1:
+            callee = self._xview
+        else:
+            callee = self._yview
+
         system = platform.system()
         if system == 'Linux':
             if event.num == 4:
-                self._yview(tk.SCROLL, -1, tk.UNITS)
+                callee(tk.SCROLL, -1, tk.UNITS)
             elif event.num == 5:
-                self._yview(tk.SCROLL, 1, tk.UNITS)
+                callee(tk.SCROLL, 1, tk.UNITS)
         elif system == 'Darwin':
-            self._yview(tk.SCROLL, -event.delta, tk.UNITS)
+            callee(tk.SCROLL, -event.delta, tk.UNITS)
         elif system == 'Windows':
-            self._yview(tk.SCROLL, -event.delta // 120, tk.UNITS)
+            callee(tk.SCROLL, -event.delta // 120, tk.UNITS)
