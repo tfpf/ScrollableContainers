@@ -1,32 +1,39 @@
-# Scrollable Frame for Tkinter
-A scrollable frame which just works:tm:!
+# Scrollable containers which *just work*:tm:!
 
 If you have developed GUI applications, you probably know the pain of designing a clean front-end only to find that
-your application window is too large for your client's screen. Making the content scrollable is not straightforward, at
-least in Tkinter. Especially not after you have already written a lot of code to draw the content.
+your application window is too large for your client's screen. Making the content scrollable is not straightforward (at
+least in Tkinter). Especially not after you have already written a lot of code to draw the content.
 
-You can use `ScrollableFrameTk` to reduce headaches. It automatically handles horizontal and vertical scrolling, and
-doesn't break when the window is resized. If the window is wider than its contents, the latter will be horizontally
-centred. Also, scrolling the mouse wheel vertically scrolls the window; if shift is held down, it horizontally scrolls
-the window. Two-finger swipe gestures on the touchpad can also be used to scroll horizontally and vertically.
+You can use `ScrollableContainers` to reduce headaches. Run the following commands to install the package.
 
-### TL;DR
-Add widgets to the `frame` attribute of a `ScrollableFrameTk` object.
-```python
-import tkinter as tk
-
-from ScrollableContainers.Tk import ScrollableFrameTk
-
-root = tk.Tk()
-scrollable_frame = ScrollableFrameTk(root)
-for _ in range(100):
-    tk.Label(scrollable_frame.frame, text='Label ' * 30).pack()
-
-scrollable_frame.pack(expand=True, fill=tk.BOTH)
-root.mainloop()
+```shell
+git clone https://github.com/tfpf/ScrollableContainers.git
+cd ScrollableContainers
+pip install .
 ```
 
-See also [`examples.py`](examples.py) for more.
+## `ScrollableFrameTk`
+A full implementation of a scrollable frame in Tkinter.
+* Handles resize events correctly.
+* Horizontally centres the contents if the window is wider.
+* Supports scrolling with the mouse wheel and touchpad.
+  * Scrolling the mouse or swiping vertically with two fingers on the touchpad triggers a vertical scroll.
+  * Scrolling the mouse while holding down Shift or swiping horizontally with two fingers on the touchpad triggers a
+    horizontal scroll.
 
+### Usage
+Add widgets to the `frame` attribute of a `ScrollableFrameTk` object. See
+[`examples/examples_ScrollableFrameTk.py`](examples/examples_ScrollableFrameTk.py).
+
+### Notes
 `'<Button-4>'`, `'<Button-5>'` and `'<MouseWheel>'` are bound to all widgets using `bind_all` to handle mouse wheel
 scroll events. Do not `unbind_all` (or `bind_all` another function to) these three sequences!
+
+## `ScrollablePanelWx`
+A thin wrapper around `wx.lib.scrolledpanel.ScrolledPanel`.
+* Does everything the aforementioned class does.
+* Horizontally centres the contents if the window is wider.
+
+### Usage
+Add widgets to the `panel` attribute of a `ScrollablePanelWx` object. See
+[`examples/examples_ScrollablePanelWx.py`](examples/examples_ScrollablePanelWx.py).
