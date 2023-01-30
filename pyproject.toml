@@ -8,7 +8,7 @@ version = "0.1"
 authors = [
     { name="Vishal Pankaj Chandratreya" },
 ]
-description = "Scrollable container for some GUI toolkits"
+description = "Scrollable containers for some GUI toolkits"
 readme = "README.md"
 requires-python = ">=3.8"
 classifiers = [
