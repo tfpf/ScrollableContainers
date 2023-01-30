@@ -20,5 +20,5 @@ added to its `panel` attribute.
         # minimum virtual size of the panel.
         vbox = wx.BoxSizer(wx.VERTICAL)
         self.panel = wx.Panel(self)
-        vbox.Add(self.panel, flag=wx.ALIGN_CENTRE | wx.EXPAND)
+        vbox.Add(self.panel, flag=wx.ALIGN_CENTRE)
         self.SetSizer(vbox)
