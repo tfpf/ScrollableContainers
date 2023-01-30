@@ -12,6 +12,13 @@ cd ScrollableContainers
 pip install .
 ```
 
+To update your installation, run the following commands from the root directory of the repository.
+
+```shell
+git pull
+pip install .
+```
+
 ## `ScrollableFrameTk`
 A full implementation of a scrollable frame in Tkinter.
 * Handles resize events correctly.
