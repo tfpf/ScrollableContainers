@@ -34,7 +34,7 @@ def single_widget():
 
     scrollable_panel = ScrollablePanelWx(root)
 
-    wx.StaticText(scrollable_panel.panel, label='bing window, small label')
+    wx.StaticText(scrollable_panel.panel, label='big window, small label')
 
     scrollable_panel.SetupScrolling()
     root.Show()
