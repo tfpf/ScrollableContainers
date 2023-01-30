@@ -10,14 +10,12 @@ doesn't break when the window is resized. If the window is wider than its conten
 centred. Also, scrolling the mouse wheel vertically scrolls the window; if shift is held down, it horizontally scrolls
 the window. Two-finger swipe gestures on the touchpad can also be used to scroll horizontally and vertically.
 
-This project is not connected with [the `ScrollableFrame` PyPI package](https://pypi.org/project/ScrollableFrame/).
-
 ### TL;DR
 Add widgets to the `frame` attribute of a `ScrollableFrameTk` object.
 ```python
 import tkinter as tk
 
-from ScrollableFrame.Tk import ScrollableFrameTk
+from ScrollableContainers.Tk import ScrollableFrameTk
 
 root = tk.Tk()
 scrollable_frame = ScrollableFrameTk(root)

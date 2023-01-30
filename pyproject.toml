@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ScrollableContainers"
+version = "0.1"
+authors = [
+    { name="Vishal Pankaj Chandratreya" },
+]
+description = "Scrollable container for some GUI toolkits"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Licence :: OSI Approved :: MIT Licence",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/tfpf/ScrollableContainers"
+"Bug Tracker" = "https://github.com/tfpf/ScrollableContainers/issues"
