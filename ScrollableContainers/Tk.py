@@ -6,6 +6,8 @@ import tkinter.ttk as ttk
 
 __all__ = ['ScrollableFrameTk']
 
+_system = platform.system()
+
 ###############################################################################
 
 class ScrollableFrameTk(ttk.Frame):
@@ -43,8 +45,8 @@ added to its `frame` attribute.
         # Initially, the vertical scrollbar is a hair below its topmost
         # position. Move it to said position. No harm in doing the equivalent
         # for the horizontal scrollbar.
-        self._canvas.xview_moveto(0)
-        self._canvas.yview_moveto(0)
+        self._canvas.xview_moveto(0.0)
+        self._canvas.yview_moveto(0.0)
 
     ###########################################################################
 
@@ -165,9 +167,9 @@ the mouse wheel.
     def _on_mouse_scroll(self, event):
         '''
 Called when the mouse wheel is scrolled or a two-finger swipe gesture is
-performed on the touchpad. Ask to scroll the view horizontally if Shift is held
-down (equivalent to a horizontal two-finger swipe) and vertically otherwise
-(equivalent to a vertical two-finger swipe).
+performed on the touchpad. Ask to scroll the view horizontally if the mouse
+wheel is scrolled with Shift held down (equivalent to a horizontal two-finger
+swipe) and vertically otherwise (equivalent to a vertical two-finger swipe).
 
 :param event: Scroll event.
         '''
@@ -179,13 +181,12 @@ down (equivalent to a horizontal two-finger swipe) and vertically otherwise
         else:
             callee = self._yview
 
-        system = platform.system()
-        if system == 'Linux':
+        if _system == 'Linux':
             if event.num == 4:
                 callee(tk.SCROLL, -1, tk.UNITS)
             elif event.num == 5:
                 callee(tk.SCROLL, 1, tk.UNITS)
-        elif system == 'Darwin':
+        elif _system == 'Darwin':
             callee(tk.SCROLL, -event.delta, tk.UNITS)
-        elif system == 'Windows':
+        elif _system == 'Windows':
             callee(tk.SCROLL, -event.delta // 120, tk.UNITS)

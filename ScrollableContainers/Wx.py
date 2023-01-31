@@ -1,13 +1,13 @@
 #! /usr/bin/python3 -B
 
 import wx
-import wx.lib.scrolledpanel as scrolled
+import wx.lib.scrolledpanel as scrolledpanel
 
 __all__ = ['ScrollablePanelWx']
 
 ###############################################################################
 
-class ScrollablePanelWx(scrolled.ScrolledPanel):
+class ScrollablePanelWx(scrolledpanel.ScrolledPanel):
     '''
 Container with horizontal and vertical scrolling capabilities. Widgets must be
 added to its `panel` attribute.
