@@ -23,9 +23,9 @@ added to its `frame` attribute.
         # scrolling. Using the grid geometry manager ensures that the
         # horizontal and vertical scrollbars do not meet.
         self._canvas = tk.Canvas(self)
-        self._canvas.bind('<Enter>', self._on_enter)
-        self._canvas.bind('<Leave>', self._on_leave)
         self._canvas.bind('<Configure>', self._on_canvas_configure)
+        self._canvas.bind('<Enter>', self._on_canvas_enter)
+        self._canvas.bind('<Leave>', self._on_canvas_leave)
         self._canvas.grid(row=0, column=0, sticky=tk.NSEW)
 
         xscrollbar = ttk.Scrollbar(self, orient=tk.HORIZONTAL, command=self._xview)
@@ -52,7 +52,7 @@ added to its `frame` attribute.
 
     def _xview(self, *args, width=None):
         '''
-Called when the horizontal scrollbar is moved. Called by some other callbacks
+Called when a horizontal scroll is requested. Called by some other callbacks
 (`_on_canvas_configure` and `_on_frame_configure`) whenever it is necessary to
 horizontally realign the contents of the canvas. Scroll the view only if the
 contents are not completely visible. Otherwise, move the scrollbar to such a
@@ -77,8 +77,8 @@ position that they are horizontally centred.
 
     def _yview(self, *args):
         '''
-Called when the vertical scrollbar is moved. Called indirectly when the mouse
-wheel is scrolled. Scroll the view only if it is not completely visible.
+Called when a vertical scroll is requested. Scroll the view only if the
+contents are not completely visible.
 
 :param args: Tuple which can be passed to `tkinter.Canvas.yview`.
         '''
@@ -136,7 +136,7 @@ expose event.
 
     ###########################################################################
 
-    def _on_enter(self, event=None):
+    def _on_canvas_enter(self, event=None):
         '''
 Called when the mouse pointer enters the canvas. Set up vertical scrolling with
 the mouse wheel.
@@ -150,7 +150,7 @@ the mouse wheel.
 
     ###########################################################################
 
-    def _on_leave(self, event=None):
+    def _on_canvas_leave(self, event=None):
         '''
 Called when the mouse pointer leaves the canvas. Unset vertical scrolling with
 the mouse wheel.
