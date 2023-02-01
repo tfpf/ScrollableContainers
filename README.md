@@ -14,9 +14,9 @@ A full implementation of a scrollable frame in Tkinter.
 * Handles resize events correctly.
 * Horizontally centres the contents if the window is wider.
 * Supports scrolling with the mouse wheel and touchpad.
-  * Scrolling the mouse or swiping vertically with two fingers on the touchpad triggers a vertical scroll.
-  * Scrolling the mouse while holding down Shift or swiping horizontally with two fingers on the touchpad triggers a
-    horizontal scroll.
+  * Scrolling the mouse wheel or swiping vertically with two fingers on the touchpad triggers a vertical scroll.
+  * Scrolling the mouse wheel while holding down Shift or swiping horizontally with two fingers on the touchpad
+    triggers a horizontal scroll.
 
 ### Usage
 Add widgets to the `frame` attribute of a `ScrollableFrameTk` object. See
