@@ -144,9 +144,9 @@ the mouse wheel.
 :param event: Enter event.
         '''
 
-        self._on_mouse_scroll_up_linux = self.bind_all('<Button-4>', self._on_mouse_scroll)
-        self._on_mouse_scroll_down_linux = self.bind_all('<Button-5>', self._on_mouse_scroll)
-        self._on_mouse_scroll_macos_windows = self.bind_all('<MouseWheel>', self._on_mouse_scroll)
+        self.bind_all('<Button-4>', self._on_mouse_scroll)
+        self.bind_all('<Button-5>', self._on_mouse_scroll)
+        self.bind_all('<MouseWheel>', self._on_mouse_scroll)
 
     ###########################################################################
 
