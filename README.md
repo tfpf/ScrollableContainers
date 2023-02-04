@@ -1,4 +1,4 @@
-# Scrollable containers which *just work*:tm:!
+# Scrollable containers which *just work*!
 If you have developed GUI applications, you probably know the pain of designing a clean front-end only to find that
 your application window is too large for your client's screen. Making the content scrollable is not straightforward (at
 least in Tkinter). Especially not after you have already written a lot of code to draw the content.
@@ -6,7 +6,7 @@ least in Tkinter). Especially not after you have already written a lot of code t
 You can use `ScrollableContainers` to reduce headaches. Run the following command to install the package.
 
 ```shell
-pip install git+https://github.com/tfpf/ScrollableContainers.git
+pip install ScrollableContainers
 ```
 
 ## `ScrollableFrameTk`
@@ -19,8 +19,8 @@ A full implementation of a scrollable frame in Tkinter.
     triggers a horizontal scroll.
 
 ### Usage
-Add widgets to the `frame` attribute of a `ScrollableFrameTk` object. See
-[`examples/examples_ScrollableFrameTk.py`](examples/examples_ScrollableFrameTk.py).
+Add widgets to the `frame` attribute of a `ScrollableFrameTk` object.
+[See examples.](https://github.com/tfpf/ScrollableContainers/blob/main/examples/examples_ScrollableFrameTk.py)
 
 ### Notes
 `'<Button-4>'`, `'<Button-5>'` and `'<MouseWheel>'` are bound to all widgets using `bind_all` to handle mouse wheel
@@ -32,5 +32,5 @@ A thin wrapper around `wx.lib.scrolledpanel.ScrolledPanel`.
 * Horizontally centres the contents if the window is wider.
 
 ### Usage
-Add widgets to the `panel` attribute of a `ScrollablePanelWx` object. See
-[`examples/examples_ScrollablePanelWx.py`](examples/examples_ScrollablePanelWx.py).
+Add widgets to the `panel` attribute of a `ScrollablePanelWx` object.
+[See examples.](https://github.com/tfpf/ScrollableContainers/blob/main/examples/examples_ScrollablePanelWx.py)
