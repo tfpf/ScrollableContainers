@@ -3,7 +3,8 @@ If you have developed GUI applications, you probably know the pain of designing 
 your application window is too large for your client's screen. Making the content scrollable is not straightforward (at
 least in Tkinter). Especially not after you have already written a lot of code to draw the content.
 
-You can use `ScrollableContainers` to reduce headaches. It's available on PyPI.
+You can use `ScrollableContainers` to reduce headaches.
+[It's available on PyPI!](https://pypi.org/project/ScrollableContainers/)
 
 ```shell
 pip install ScrollableContainers
