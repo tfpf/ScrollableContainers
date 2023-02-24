@@ -1,20 +1,17 @@
-#! /usr/bin/python3 -B
+__all__ = ['ScrollableFrameTk']
 
 import platform
 import tkinter as tk
 import tkinter.ttk as ttk
 
-__all__ = ['ScrollableFrameTk']
-
 _system = platform.system()
 
-###############################################################################
 
 class ScrollableFrameTk(ttk.Frame):
-    '''
+    """
 Container with horizontal and vertical scrolling capabilities. Widgets must be
 added to its `frame` attribute.
-    '''
+    """
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -48,10 +45,8 @@ added to its `frame` attribute.
         self._canvas.xview_moveto(0.0)
         self._canvas.yview_moveto(0.0)
 
-    ###########################################################################
-
     def _xview(self, *args, width=None):
-        '''
+        """
 Called when a horizontal scroll is requested. Called by some other callbacks
 (`_on_canvas_configure` and `_on_frame_configure`) whenever it is necessary to
 horizontally realign the contents of the canvas. Scroll the view only if the
@@ -60,8 +55,7 @@ position that they are horizontally centred.
 
 :param args: Tuple which can be passed to `tkinter.Canvas.xview`.
 :param width: Width of the canvas.
-        '''
-
+        """
         if self._canvas.xview() != (0.0, 1.0):
             self._canvas.xview(*args)
         else:
@@ -73,35 +67,27 @@ position that they are horizontally centred.
             # fraction between 0 and 1), but it works!
             self._canvas.xview_moveto((1 - width / self.frame.winfo_width()) / 2)
 
-    ###########################################################################
-
     def _yview(self, *args):
-        '''
+        """
 Called when a vertical scroll is requested. Scroll the view only if the
 contents are not completely visible.
 
 :param args: Tuple which can be passed to `tkinter.Canvas.yview`.
-        '''
-
+        """
         if self._canvas.yview() != (0.0, 1.0):
             self._canvas.yview(*args)
 
-    ###########################################################################
-
     def _on_canvas_configure(self, event):
-        '''
+        """
 Called when the canvas is resized. Update the scrollable region.
 
 :param event: Configure event.
-        '''
-
+        """
         self._canvas.configure(scrollregion=self._canvas.bbox(tk.ALL))
         self._xview(tk.SCROLL, 0, tk.UNITS, width=event.width)
 
-    ###########################################################################
-
     def _on_frame_configure(self, event=None):
-        '''
+        """
 Called when the frame is resized or the canvas is scrolled. Update the
 scrollable region.
 
@@ -109,15 +95,12 @@ This method is necessary to handle updates which may occur after the GUI loop
 has started.
 
 :param event: Configure event.
-        '''
-
+        """
         self._canvas.configure(scrollregion=self._canvas.bbox(tk.ALL))
         self._xview(tk.SCROLL, 0, tk.UNITS)
 
-    ###########################################################################
-
     def _on_frame_expose(self, event=None):
-        '''
+        """
 Called when the frame becomes visible. Call `_on_frame_configure` and then
 disable this callback.
 
@@ -129,51 +112,41 @@ events work differently.) Hence, I try to centre the contents again upon an
 expose event.
 
 :param event: Expose event.
-        '''
-
+        """
         self._on_frame_configure()
         self.frame.unbind('<Expose>', self._on_frame_expose_id)
 
-    ###########################################################################
-
     def _on_canvas_enter(self, event=None):
-        '''
+        """
 Called when the mouse pointer enters the canvas. Set up vertical scrolling with
 the mouse wheel.
 
 :param event: Enter event.
-        '''
-
+        """
         self.bind_all('<Button-4>', self._on_mouse_scroll)
         self.bind_all('<Button-5>', self._on_mouse_scroll)
         self.bind_all('<MouseWheel>', self._on_mouse_scroll)
 
-    ###########################################################################
-
     def _on_canvas_leave(self, event=None):
-        '''
+        """
 Called when the mouse pointer leaves the canvas. Unset vertical scrolling with
 the mouse wheel.
 
 :param event: Leave event.
-        '''
-
+        """
         self.unbind_all('<Button-4>')
         self.unbind_all('<Button-5>')
         self.unbind_all('<MouseWheel>')
 
-    ###########################################################################
-
     def _on_mouse_scroll(self, event):
-        '''
+        """
 Called when the mouse wheel is scrolled or a two-finger swipe gesture is
 performed on the touchpad. Ask to scroll the view horizontally if the mouse
 wheel is scrolled with Shift held down (equivalent to a horizontal two-finger
 swipe) and vertically otherwise (equivalent to a vertical two-finger swipe).
 
 :param event: Scroll event.
-        '''
-
+        """
         # Select which method to call based on whether Shift was held down.
         # This is indicated by the LSB of the state.
         if event.state & 1:
