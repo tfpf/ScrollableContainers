@@ -18,7 +18,7 @@ def grid_of_widgets():
     # scrollable panel itself.
     dim = 10
     grid_sizer = wx.GridSizer(dim, dim, 20, 20)
-    for (i, j) in itertools.product(range(dim), range(dim)):
+    for (i, j) in itertools.product(range(dim), repeat=2):
         grid_sizer.Add(wx.StaticText(scrollable_panel.panel, label=f'Label\n({i}, {j})'))
 
     scrollable_panel.panel.SetSizer(grid_sizer)

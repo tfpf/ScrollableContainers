@@ -18,7 +18,7 @@ def grid_of_widgets():
     # Add widgets to the `frame` attribute of the scrollable frame, not to the
     # scrollable frame itself.
     dim = 10
-    for (i, j) in itertools.product(range(dim), range(dim)):
+    for (i, j) in itertools.product(range(dim), repeat=2):
         tk.Label(scrollable_frame.frame, text=f'Label\n({i}, {j})').grid(row=i, column=j, padx=10, pady=10)
 
     scrollable_frame.pack(expand=True, fill=tk.BOTH)
