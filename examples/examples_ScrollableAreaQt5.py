@@ -24,7 +24,7 @@ def grid_of_widgets():
 
     window.setCentralWidget(scrollable_area)
     window.show()
-    app.exec_()
+    app.exec()
 
 ###############################################################################
 
@@ -39,7 +39,7 @@ def single_widget():
 
     window.setCentralWidget(scrollable_area)
     window.show()
-    app.exec_()
+    app.exec()
 
 ###############################################################################
 

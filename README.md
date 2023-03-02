@@ -10,6 +10,8 @@ You can use `ScrollableContainers` to reduce headaches.
 pip install ScrollableContainers
 ```
 
+[Tkinter](#Tkinter) [wxPython](#wxPython) [Qt5](#Qt5)
+
 # Tkinter
 `ScrollableContainers.Tk.ScrollableFrameTk`: a comprehensive implementation of a scrollable frame.
 
@@ -35,6 +37,17 @@ scroll events. Do not `unbind_all` (or `bind_all` another function to) these thr
 ### Usage
 Add widgets to the `panel` attribute of a `ScrollablePanelWx` object.
 [See examples.](https://github.com/tfpf/ScrollableContainers/blob/main/examples/examples_ScrollablePanelWx.py)
+
+### Features
+* Does everything the wrapped class does.
+* Horizontally centres the contents if the window is wider.
+
+# Qt5
+`ScrollableContainers.Qt5.ScrollableAreaQt5`: a thin wrapper around `PyQt5.QtWidgets.QScrollArea`.
+
+### Usage
+Add widgets to the `area` attribute of a `ScrollableAreaQt5` object.
+[See examples.](https://github.com/tfpf/ScrollableContainers/blob/main/examples/examples_ScrollableAreaQt5.py)
 
 ### Features
 * Does everything the wrapped class does.
