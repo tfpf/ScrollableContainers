@@ -10,10 +10,14 @@ You can use `ScrollableContainers` to reduce headaches.
 pip install ScrollableContainers
 ```
 
-[Tkinter](#Tkinter) [wxPython](#wxPython) [Qt5](#Qt5)
+Scrollable containers are currently available for the following GUI toolkits.
+* [Tkinter](#Tkinter)
+* [wxPython](#wxPython)
+* [Qt5](#Qt5)
 
 # Tkinter
-`ScrollableContainers.Tk.ScrollableFrameTk`: a comprehensive implementation of a scrollable frame.
+`ScrollableContainers.Tk.ScrollableFrameTk`: a comprehensive implementation of a scrollable frame, and the flagship
+class of this project. (I wrote the other classes just for completeness.)
 
 ### Usage
 Add widgets to the `frame` attribute of a `ScrollableFrameTk` object.
