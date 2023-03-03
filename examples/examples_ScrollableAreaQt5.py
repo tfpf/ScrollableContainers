@@ -1,16 +1,17 @@
 #! /usr/bin/python3 -B
 
 import itertools
-import PyQt5.QtCore as QtCore
-import PyQt5.QtWidgets as QtWidgets
+from PyQt5.QtCore import QSize
+from PyQt5.QtWidgets import QApplication, QGridLayout, QLabel, QMainWindow, QVBoxLayout
 
 from ScrollableContainers.Qt5 import ScrollableAreaQt5
 
 ###############################################################################
 
 def grid_of_widgets():
-    app = QtWidgets.QApplication(['`ScrollableAreaQt5` demo'])
-    window = QtWidgets.QMainWindow()
+    app = QApplication([])
+    window = QMainWindow()
+    window.setWindowTitle('`ScrollableAreaQt5` demo')
 
     # Create a scrollable area.
     scrollable_area = ScrollableAreaQt5()
@@ -18,9 +19,9 @@ def grid_of_widgets():
     # Add widgets to the `area` attribute of the scrollable area, not to the
     # scrollable area itself.
     dim = 10
-    grid_layout = QtWidgets.QGridLayout(scrollable_area.area)
+    grid_layout = QGridLayout(scrollable_area.area)
     for (i, j) in itertools.product(range(dim), repeat=2):
-        grid_layout.addWidget(QtWidgets.QLabel(text=f'Label\n({i}, {j})'), i, j)
+        grid_layout.addWidget(QLabel(text=f'Label\n({i}, {j})'), i, j)
 
     window.setCentralWidget(scrollable_area)
     window.show()
@@ -29,13 +30,14 @@ def grid_of_widgets():
 ###############################################################################
 
 def single_widget():
-    app = QtWidgets.QApplication(['`ScrollableAreaQt5` demo'])
-    window = QtWidgets.QMainWindow(size=QtCore.QSize(600, 200))
+    app = QApplication([])
+    window = QMainWindow(size=QSize(600, 200))
+    window.setWindowTitle('`ScrollableAreaQt5` demo')
 
     scrollable_area = ScrollableAreaQt5()
 
-    vbox = QtWidgets.QVBoxLayout(scrollable_area.area)
-    vbox.addWidget(QtWidgets.QLabel(text='big window, small label'))
+    vbox = QVBoxLayout(scrollable_area.area)
+    vbox.addWidget(QLabel(text='big window, small label'))
 
     window.setCentralWidget(scrollable_area)
     window.show()
