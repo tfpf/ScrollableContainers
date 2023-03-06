@@ -11,9 +11,9 @@ pip install ScrollableContainers
 ```
 
 Scrollable containers are currently available for the following GUI toolkits.
-* [Tkinter](#Tkinter)
-* [wxPython](#wxPython)
-* [PyQt5](#PyQt5)
+* Tkinter
+* wxPython
+* PyQt5
 
 # Tkinter
 `ScrollableContainers.Tk.ScrollableFrameTk`: a comprehensive implementation of a scrollable frame, and the flagship
