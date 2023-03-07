@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ScrollableContainers"
-version = "1.0a3"
+version = "1.0b1"
 authors = [
     { name="Vishal Pankaj Chandratreya" },
 ]

@@ -14,6 +14,7 @@ Scrollable containers are currently available for the following GUI toolkits.
 * Tkinter
 * wxPython
 * PyQt5
+* PyQt6
 
 # Tkinter
 `ScrollableContainers.Tk.ScrollableFrameTk`: a comprehensive implementation of a scrollable frame, and the flagship
@@ -46,12 +47,14 @@ Add widgets to the `panel` attribute of a `ScrollablePanelWx` object.
 * Does everything the wrapped class does.
 * Horizontally centres the contents if the window is wider.
 
-# PyQt5
-`ScrollableContainers.Qt5.ScrollableAreaQt5`: a thin wrapper around `PyQt5.QtWidgets.QScrollArea`.
+# PyQt5/PyQt6
+`ScrollableContainers.Qt5.ScrollableAreaQt5`/`ScrollableContainers.Qt6.ScrollableAreaQt6`: a thin wrapper around
+`PyQt5.QtWidgets.QScrollArea`/`PyQt6.QtWidgets.QScrollArea`.
 
 ### Usage
-Add widgets to the `area` attribute of a `ScrollableAreaQt5` object.
-[See examples.](https://github.com/tfpf/ScrollableContainers/blob/main/examples/examples_ScrollableAreaQt5.py)
+Add widgets to the `area` attribute of a `ScrollableAreaQt5`/`ScrollableAreaQt6` object.
+[See](https://github.com/tfpf/ScrollableContainers/blob/main/examples/examples_ScrollableAreaQt5.py)
+[examples.](https://github.com/tfpf/ScrollableContainers/blob/main/examples/examples_ScrollableAreaQt6.py)
 
 ### Features
 * Does everything the wrapped class does.
