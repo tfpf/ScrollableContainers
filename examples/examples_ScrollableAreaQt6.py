@@ -6,45 +6,47 @@ from PyQt6.QtWidgets import QApplication, QGridLayout, QLabel, QMainWindow, QVBo
 
 from ScrollableContainers.Qt6 import ScrollableAreaQt6
 
-###############################################################################
 
-def grid_of_widgets():
-    app = QApplication([])
-    window = QMainWindow()
-    window.setWindowTitle('`ScrollableAreaQt6` demo')
+class ExamplesScrollableAreaQt6:
 
-    # Create a scrollable area.
-    scrollable_area = ScrollableAreaQt6()
+    def __init__(self):
+        self.grid_of_widgets(QMainWindow())
+        self.single_widget(QMainWindow())
 
-    # Add widgets to the `area` attribute of the scrollable area, not to the
-    # scrollable area itself.
-    dim = 10
-    grid_layout = QGridLayout(scrollable_area.area)
-    for (i, j) in itertools.product(range(dim), repeat=2):
-        grid_layout.addWidget(QLabel(text=f'Label\n({i}, {j})'), i, j)
+    def grid_of_widgets(self, window):
+        self.win1 = window
+        window.setWindowTitle('`ScrollableAreaQt6` demo')
 
-    window.setCentralWidget(scrollable_area)
-    window.show()
-    app.exec()
+        # Create a scrollable area.
+        scrollable_area = ScrollableAreaQt6()
 
-###############################################################################
+        # Add widgets to the `area` attribute of the scrollable area, not to
+        # the scrollable area itself.
+        dim = 10
+        grid_layout = QGridLayout(scrollable_area.area)
+        for (i, j) in itertools.product(range(dim), repeat=2):
+            label = QLabel(text=f'Label\n({i}, {j})')
+            grid_layout.addWidget(label, i, j)
 
-def single_widget():
-    app = QApplication([])
-    window = QMainWindow(size=QSize(600, 200))
-    window.setWindowTitle('`ScrollableAreaQt6` demo')
+        window.setCentralWidget(scrollable_area)
+        window.show()
 
-    scrollable_area = ScrollableAreaQt6()
+    def single_widget(self, window):
+        self.win2 = window
+        window.setWindowTitle('`ScrollableAreaQt5` demo')
+        window.resize(QSize(600, 200))
 
-    vbox = QVBoxLayout(scrollable_area.area)
-    vbox.addWidget(QLabel(text='big window, small label'))
+        scrollable_area = ScrollableAreaQt6()
 
-    window.setCentralWidget(scrollable_area)
-    window.show()
-    app.exec()
+        vbox = QVBoxLayout(scrollable_area.area)
+        label = QLabel(text='big window, small label')
+        vbox.addWidget(label)
 
-###############################################################################
+        window.setCentralWidget(scrollable_area)
+        window.show()
+
 
 if __name__ == '__main__':
-    grid_of_widgets()
-    single_widget()
+    app = QApplication([])
+    examples = ExamplesScrollableAreaQt6()
+    app.exec()
