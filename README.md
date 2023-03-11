@@ -59,3 +59,10 @@ Add widgets to the `area` attribute of a `ScrollableAreaQt5`/`ScrollableAreaQt6`
 ### Features
 * Does everything the wrapped class does.
 * Horizontally centres the contents if the window is wider.
+
+---
+
+In GTK, containers are widgets, so they can be aligned in other containers. For instance, while using PyGObject, you
+can horizontally centre a `Gtk.Grid` in a `Gtk.ScrolledWindow` using `Gtk.Grid.set_halign`. Since horizontally centring
+the contents of a scrollable container is the primary function of this package, and GTK has built-in functionality to
+achieve the same, no submodule for PyGObject is implemented here.
