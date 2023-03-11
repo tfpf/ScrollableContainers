@@ -4,11 +4,11 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ScrollableContainers"
-version = "1.0b1"
+version = "1.0.0"
 authors = [
     { name="Vishal Pankaj Chandratreya" },
 ]
-description = "Scrollable containers for some GUI toolkits"
+description = "Scrollable containers for Tkinter, wxPython, PyQt5 and PyQt6"
 readme = "README.md"
 requires-python = ">=3.8"
 classifiers = [
