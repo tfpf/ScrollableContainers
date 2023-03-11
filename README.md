@@ -16,6 +16,10 @@ Scrollable containers are currently available for the following GUI toolkits.
 * PyQt5
 * PyQt6
 
+**This project is not sponsored or endorsed by, or connected with, any organisation or entity such as but not limited
+to: the Tcl Core Team, the Python Software Foundation, the wxWidgets Team, the wxPython Team, the Qt Company and
+Riverbank Computing.**
+
 # Tkinter
 `ScrollableContainers.Tk.ScrollableFrameTk`: a comprehensive implementation of a scrollable frame, and the flagship
 class of this project. (I wrote the other classes just for completeness.)
