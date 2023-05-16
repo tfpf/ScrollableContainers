@@ -66,7 +66,35 @@ Add widgets to the `area` attribute of a `ScrollableAreaQt5`/`ScrollableAreaQt6`
 
 ---
 
-In GTK, containers are widgets, so they can be aligned in other containers. For instance, while using PyGObject, you
-can horizontally centre a `Gtk.Grid` in a `Gtk.ScrolledWindow` using `Gtk.Grid.set_halign`. Since horizontally centring
-the contents of a scrollable container is the primary function of this package, and GTK has built-in functionality to
-achieve the same, no submodule for PyGObject is implemented here.
+In GTK, containers are widgets, so they can be aligned in other containers.
+
+```Python
+import itertools
+import gi; gi.require_version('Gtk', '3.0')
+from gi.repository import Gtk
+
+window = Gtk.Window()
+window.connect('destroy', Gtk.main_quit)
+window.set_default_size(256, 128)
+
+scrolled_window = Gtk.ScrolledWindow()
+window.add(scrolled_window)
+
+grid = Gtk.Grid()
+grid.set_halign(Gtk.Align.CENTER)
+grid.set_row_spacing(20)
+grid.set_column_spacing(20)
+scrolled_window.add(grid)
+
+dim = 10
+for (i, j) in itertools.product(range(dim), repeat=2):
+    label = Gtk.Label()
+    label.set_label(f'Label\n({i}, {j})')
+    grid.attach(label, j, i, 1, 1)
+
+window.show_all()
+Gtk.main()
+```
+
+Since horizontally centring the contents of a scrollable container is the primary function of this package, and GTK has
+built-in functionality to achieve the same, no submodule for PyGObject is implemented here.
