@@ -21,8 +21,8 @@ to: the Tcl Core Team, the Python Software Foundation, the wxWidgets Team, the w
 Riverbank Computing.**
 
 # Tkinter
-`ScrollableContainers.Tk.ScrollableFrameTk`: a comprehensive implementation of a scrollable frame, and the flagship
-class of this project. (I wrote the other classes just for completeness.)
+`ScrollableContainers.ScrollableFrameTk`: a comprehensive implementation of a scrollable frame, and the flagship class
+of this project. (I wrote the other classes just for completeness.)
 
 ### Usage
 Add widgets to the `frame` attribute of a `ScrollableFrameTk` object.
@@ -41,7 +41,7 @@ Add widgets to the `frame` attribute of a `ScrollableFrameTk` object.
 scroll events. Do not `unbind_all` (or `bind_all` another function to) these three sequences!
 
 # wxPython
-`ScrollableContainers.Wx.ScrollablePanelWx`: a thin wrapper around `wx.lib.scrolledpanel.ScrolledPanel`.
+`ScrollableContainers.ScrollablePanelWx`: a thin wrapper around `wx.lib.scrolledpanel.ScrolledPanel`.
 
 ### Usage
 Add widgets to the `panel` attribute of a `ScrollablePanelWx` object.
@@ -52,7 +52,7 @@ Add widgets to the `panel` attribute of a `ScrollablePanelWx` object.
 * Horizontally centres the contents if the window is wider.
 
 # PyQt5/PyQt6
-`ScrollableContainers.Qt5.ScrollableAreaQt5`/`ScrollableContainers.Qt6.ScrollableAreaQt6`: a thin wrapper around
+`ScrollableContainers.ScrollableAreaQt5`/`ScrollableContainers.Qt6.ScrollableAreaQt6`: a thin wrapper around
 `PyQt5.QtWidgets.QScrollArea`/`PyQt6.QtWidgets.QScrollArea`.
 
 ### Usage

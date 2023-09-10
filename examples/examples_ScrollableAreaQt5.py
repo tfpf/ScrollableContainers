@@ -4,7 +4,7 @@ import itertools
 from PyQt5.QtCore import QSize
 from PyQt5.QtWidgets import QApplication, QGridLayout, QLabel, QMainWindow, QVBoxLayout
 
-from ScrollableContainers.Qt5 import ScrollableAreaQt5
+from ScrollableContainers import ScrollableAreaQt5
 
 
 class ExamplesScrollableAreaQt5:

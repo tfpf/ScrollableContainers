@@ -4,7 +4,7 @@ import itertools
 from PyQt6.QtCore import QSize
 from PyQt6.QtWidgets import QApplication, QGridLayout, QLabel, QMainWindow, QVBoxLayout
 
-from ScrollableContainers.Qt6 import ScrollableAreaQt6
+from ScrollableContainers import ScrollableAreaQt6
 
 
 class ExamplesScrollableAreaQt6:

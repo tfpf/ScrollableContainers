@@ -3,7 +3,7 @@
 import itertools
 import wx
 
-from ScrollableContainers.Wx import ScrollablePanelWx
+from ScrollableContainers import ScrollablePanelWx
 
 
 class ExamplesScrollablePanelWx:

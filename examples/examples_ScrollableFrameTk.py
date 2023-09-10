@@ -4,7 +4,7 @@ import itertools
 import tkinter as tk
 import tkinter.ttk as ttk
 
-from ScrollableContainers.Tk import ScrollableFrameTk
+from ScrollableContainers import ScrollableFrameTk
 
 
 class ExamplesScrollableFrameTk:
