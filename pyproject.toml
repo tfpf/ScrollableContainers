@@ -1,16 +1,16 @@
 [build-system]
-requires = ["setuptools>=61.0"]
+requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "ScrollableContainers"
-version = "1.1.1"
+version = "2.0.0"
 authors = [
     { name="Vishal Pankaj Chandratreya" },
 ]
 description = "Scrollable containers for Tkinter, wxPython, PyQt5 and PyQt6"
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.10"
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",

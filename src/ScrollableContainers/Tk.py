@@ -153,13 +153,14 @@ swipe) and vertically otherwise (equivalent to a vertical two-finger swipe).
             callee = self._xview
         else:
             callee = self._yview
-
-        if _system == 'Linux':
-            if event.num == 4:
+        match _system:
+            case 'Linux' if event.num == 4:
                 callee(tk.SCROLL, -1, tk.UNITS)
-            elif event.num == 5:
+            case 'Linux' if event.num == 5:
                 callee(tk.SCROLL, 1, tk.UNITS)
-        elif _system == 'Darwin':
-            callee(tk.SCROLL, -event.delta, tk.UNITS)
-        elif _system == 'Windows':
-            callee(tk.SCROLL, -event.delta // 120, tk.UNITS)
+            case 'Darwin':
+                callee(tk.SCROLL, -event.delta, tk.UNITS)
+            case 'Windows':
+                callee(tk.SCROLL, -event.delta // 120, tk.UNITS)
+            case _:
+                raise ValueError(f'unknown OS: {_system}')
