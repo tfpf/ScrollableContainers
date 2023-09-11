@@ -163,4 +163,4 @@ swipe) and vertically otherwise (equivalent to a vertical two-finger swipe).
             case 'Windows':
                 callee(tk.SCROLL, -event.delta // 120, tk.UNITS)
             case _:
-                raise ValueError(f'unknown OS: {_system}')
+                raise ValueError(f'event {event.num} on OS {_system!r} is not supported')
