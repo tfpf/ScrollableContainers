@@ -33,7 +33,7 @@ class ExamplesScrollableAreaQt6:
 
     def single_widget(self, window):
         self.win2 = window
-        window.setWindowTitle('`ScrollableAreaQt5` demo')
+        window.setWindowTitle('`ScrollableAreaQt6` demo')
         window.resize(QSize(600, 200))
 
         scrollable_area = ScrollableAreaQt6()
