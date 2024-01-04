@@ -1,4 +1,4 @@
-#! /usr/bin/python3 -B
+#! /usr/bin/env python3
 
 import itertools
 from PyQt6.QtCore import QSize
