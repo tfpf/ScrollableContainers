@@ -1,12 +1,12 @@
 [build-system]
-requires = ["setuptools"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [project]
 name = "ScrollableContainers"
 version = "2.0.1"
 authors = [
-    { name="Vishal Pankaj Chandratreya" },
+    { name = "Vishal Pankaj Chandratreya" },
 ]
 description = "Scrollable containers for Tkinter, wxPython, PyQt5 and PyQt6"
 readme = "README.md"
@@ -17,6 +17,26 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 
+[project.optional-dependencies]
+qt5 = ["PyQt5"]
+qt6 = ["PyQt6"]
+wx = ["wxPython"]
+
 [project.urls]
 "Homepage" = "https://github.com/tfpf/ScrollableContainers"
 "Bug Tracker" = "https://github.com/tfpf/ScrollableContainers/issues"
+
+[tool.hatch.envs.dev]
+features = [
+    "qt5",
+    "qt6",
+    "wx",
+]
+
+[tool.hatch.envs.dev.scripts]
+examples = [
+    "examples/examples_ScrollableAreaQt5.py",
+    "examples/examples_ScrollableAreaQt6.py",
+    "examples/examples_ScrollableFrameTk.py",
+    "examples/examples_ScrollablePanelWx.py",
+]
