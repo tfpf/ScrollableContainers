@@ -4,8 +4,8 @@ on: [push, workflow_dispatch]
 jobs:
   lint:
     name: lint
-    runs-on: ubuntu-22.04
+    runs-on: macos-12
     steps:
       - uses: actions/checkout@v4
-      - run: sudo apt install hatch
+      - run: brew install hatch
       - run: hatch fmt --check
