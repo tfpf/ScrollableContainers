@@ -1,6 +1,5 @@
-for module in ('.Qt5', '.Qt6', '.Tk', '.Wx'):
+for module in ('.qt5', '.qt6', '.tk', '.wx'):
     try:
         exec(f'from {module} import *')
     except ImportError:
         pass
-del Qt5, Qt6, Tk, Wx
