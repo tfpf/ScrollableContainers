@@ -6,8 +6,8 @@ from PyQt5.QtWidgets import QScrollArea, QVBoxLayout, QWidget
 
 class ScrollableAreaQt5(QScrollArea):
     """
-    Container with horizontal and vertical scrolling capabilities. Widgets must be
-    added to its `area` attribute.
+    Container with horizontal and vertical scrolling capabilities. Widgets must
+    be added to its `area` attribute.
     """
 
     def __init__(self, *args, **kwargs):

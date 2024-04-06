@@ -9,8 +9,8 @@ _system = platform.system()
 
 class ScrollableFrameTk(ttk.Frame):
     """
-    Container with horizontal and vertical scrolling capabilities. Widgets must be
-    added to its `frame` attribute.
+    Container with horizontal and vertical scrolling capabilities. Widgets must
+    be added to its `frame` attribute.
     """
 
     def __init__(self, *args, **kwargs):
@@ -47,11 +47,12 @@ class ScrollableFrameTk(ttk.Frame):
 
     def _xview(self, *args, width=None):
         """
-        Called when a horizontal scroll is requested. Called by some other callbacks
-        (`_on_canvas_configure` and `_on_frame_configure`) whenever it is necessary to
-        horizontally realign the contents of the canvas. Scroll the view only if the
-        contents are not completely visible. Otherwise, move the scrollbar to such a
-        position that they are horizontally centred.
+        Called when a horizontal scroll is requested. Called by other callbacks
+        (`_on_canvas_configure` and `_on_frame_configure`) whenever it is
+        necessary to horizontally realign the contents of the canvas. Scroll
+        the view only if the contents are not completely visible. Otherwise,
+        move the scrollbar to such a position that they are horizontally
+        centred.
 
         :param args: Tuple which can be passed to `tkinter.Canvas.xview`.
         :param width: Width of the canvas.
@@ -91,8 +92,8 @@ class ScrollableFrameTk(ttk.Frame):
         Called when the frame is resized or the canvas is scrolled. Update the
         scrollable region.
 
-        This method is necessary to handle updates which may occur after the GUI loop
-        has started.
+        This method is necessary to handle updates which may occur after the
+        GUI loop has started.
 
         :param _: Configure event.
         """
@@ -101,15 +102,15 @@ class ScrollableFrameTk(ttk.Frame):
 
     def _on_frame_expose(self, _=None):
         """
-        Called when the frame becomes visible. Call `_on_frame_configure` and then
-        disable this callback.
+        Called when the frame becomes visible. Call `_on_frame_configure` and
+        then disable this callback.
 
-        This method is necessary because if a scrollable frame is put into, say, a
-        notebook (as opposed to a toplevel window), and the canvas is wider than its
-        contents, then (on Linux) the contents are not initially horizontally centred.
-        (This issue is not observed on Windows, probably because its frame configure
-        events work differently.) Hence, I try to centre the contents again upon an
-        expose event.
+        This method is necessary because if a scrollable frame is put into,
+        say, a notebook (as opposed to a toplevel window), and the canvas is
+        wider than its contents, then (on Linux) the contents are not initially
+        horizontally centred. (This issue is not observed on Windows, probably
+        because its frame configure events work differently.) Hence, I try to
+        centre the contents again upon an expose event.
 
         :param _: Expose event.
         """
@@ -118,8 +119,8 @@ class ScrollableFrameTk(ttk.Frame):
 
     def _on_canvas_enter(self, _=None):
         """
-        Called when the mouse pointer enters the canvas. Set up vertical scrolling with
-        the mouse wheel.
+        Called when the mouse pointer enters the canvas. Set up vertical
+        scrolling with the mouse wheel.
 
         :param _: Enter event.
         """
@@ -129,8 +130,8 @@ class ScrollableFrameTk(ttk.Frame):
 
     def _on_canvas_leave(self, _=None):
         """
-        Called when the mouse pointer leaves the canvas. Unset vertical scrolling with
-        the mouse wheel.
+        Called when the mouse pointer leaves the canvas. Unset vertical
+        scrolling with the mouse wheel.
 
         :param _: Leave event.
         """
@@ -140,10 +141,11 @@ class ScrollableFrameTk(ttk.Frame):
 
     def _on_mouse_scroll(self, event):
         """
-        Called when the mouse wheel is scrolled or a two-finger swipe gesture is
-        performed on the touchpad. Ask to scroll the view horizontally if the mouse
-        wheel is scrolled with Shift held down (equivalent to a horizontal two-finger
-        swipe) and vertically otherwise (equivalent to a vertical two-finger swipe).
+        Called when the mouse wheel is scrolled or a two-finger swipe gesture
+        is performed on the touchpad. Ask to scroll the view horizontally if
+        the mouse wheel is scrolled with Shift held down (equivalent to a
+        horizontal two-finger swipe) and vertically otherwise (equivalent to a
+        vertical two-finger swipe).
 
         :param event: Scroll event.
         """
