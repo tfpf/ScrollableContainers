@@ -8,4 +8,4 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: pipx install hatch
-      - run: hatch -vv build
+      - run: hatch build
