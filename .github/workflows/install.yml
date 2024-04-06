@@ -1,9 +1,9 @@
-name: build
+name: install
 on: [push, workflow_dispatch]
 
 jobs:
-  build:
-    name: build on ubuntu-22.04
+  install:
+    name: install on ubuntu-22.04
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
