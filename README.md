@@ -20,6 +20,10 @@ Scrollable containers are currently available for the following GUI toolkits.
 to: the Tcl Core Team, the Python Software Foundation, the wxWidgets Team, the wxPython Team, the Qt Company and
 Riverbank Computing.**
 
+[![lint](https://github.com/tfpf/ScrollableContainers/actions/workflows/lint.yml/badge.svg)](https://github.com/tfpf/ScrollableContainers/actions/workflows/lint.yml)
+[![install](https://github.com/tfpf/ScrollableContainers/actions/workflows/install.yml/badge.svg)](https://github.com/tfpf/ScrollableContainers/actions/workflows/install.yml)
+[![build](https://github.com/tfpf/ScrollableContainers/actions/workflows/build.yml/badge.svg)](https://github.com/tfpf/ScrollableContainers/actions/workflows/build.yml)
+
 # Tkinter
 `ScrollableContainers.ScrollableFrameTk`: a comprehensive implementation of a scrollable frame, and the flagship class
 of this project. (I wrote the other classes just for completeness.)
