@@ -1,4 +1,4 @@
-__all__ = ['ScrollablePanelWx']
+__all__ = ["ScrollablePanelWx"]
 
 import wx
 from wx.lib import scrolledpanel
@@ -6,8 +6,8 @@ from wx.lib import scrolledpanel
 
 class ScrollablePanelWx(scrolledpanel.ScrolledPanel):
     """
-Container with horizontal and vertical scrolling capabilities. Widgets must be
-added to its `panel` attribute.
+    Container with horizontal and vertical scrolling capabilities. Widgets must be
+    added to its `panel` attribute.
     """
 
     def __init__(self, *args, **kwargs):

@@ -1,4 +1,4 @@
-__all__ = ['ScrollableAreaQt6']
+__all__ = ["ScrollableAreaQt6"]
 
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QScrollArea, QVBoxLayout, QWidget
@@ -6,8 +6,8 @@ from PyQt6.QtWidgets import QScrollArea, QVBoxLayout, QWidget
 
 class ScrollableAreaQt6(QScrollArea):
     """
-Container with horizontal and vertical scrolling capabilities. Widgets must be
-added to its `area` attribute.
+    Container with horizontal and vertical scrolling capabilities. Widgets must be
+    added to its `area` attribute.
     """
 
     def __init__(self, *args, **kwargs):
