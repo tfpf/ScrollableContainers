@@ -32,3 +32,6 @@ features = [
     "qt6",
     "wx",
 ]
+
+[tool.ruff.lint.per-file-ignores]
+"src/ScrollableContainers/__init__.py" = ["F401", "N999"]
