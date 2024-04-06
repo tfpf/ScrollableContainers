@@ -27,6 +27,9 @@ wx = ["wxPython"]
 "Bug Tracker" = "https://github.com/tfpf/ScrollableContainers/issues"
 
 [tool.hatch.envs.dev]
+dependencies = [
+    "setuptools"
+]
 features = [
     "qt5",
     "qt6",
