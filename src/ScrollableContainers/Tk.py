@@ -86,7 +86,7 @@ Called when the canvas is resized. Update the scrollable region.
         self._canvas.configure(scrollregion=self._canvas.bbox(tk.ALL))
         self._xview(tk.SCROLL, 0, tk.UNITS, width=event.width)
 
-    def _on_frame_configure(self, event=None):
+    def _on_frame_configure(self, _=None):
         """
 Called when the frame is resized or the canvas is scrolled. Update the
 scrollable region.
@@ -94,12 +94,12 @@ scrollable region.
 This method is necessary to handle updates which may occur after the GUI loop
 has started.
 
-:param event: Configure event.
+:param _: Configure event.
         """
         self._canvas.configure(scrollregion=self._canvas.bbox(tk.ALL))
         self._xview(tk.SCROLL, 0, tk.UNITS)
 
-    def _on_frame_expose(self, event=None):
+    def _on_frame_expose(self, _=None):
         """
 Called when the frame becomes visible. Call `_on_frame_configure` and then
 disable this callback.
@@ -111,28 +111,28 @@ contents, then (on Linux) the contents are not initially horizontally centred.
 events work differently.) Hence, I try to centre the contents again upon an
 expose event.
 
-:param event: Expose event.
+:param _: Expose event.
         """
         self._on_frame_configure()
         self.frame.unbind('<Expose>', self._on_frame_expose_id)
 
-    def _on_canvas_enter(self, event=None):
+    def _on_canvas_enter(self, _=None):
         """
 Called when the mouse pointer enters the canvas. Set up vertical scrolling with
 the mouse wheel.
 
-:param event: Enter event.
+:param _: Enter event.
         """
         self.bind_all('<Button-4>', self._on_mouse_scroll)
         self.bind_all('<Button-5>', self._on_mouse_scroll)
         self.bind_all('<MouseWheel>', self._on_mouse_scroll)
 
-    def _on_canvas_leave(self, event=None):
+    def _on_canvas_leave(self, _=None):
         """
 Called when the mouse pointer leaves the canvas. Unset vertical scrolling with
 the mouse wheel.
 
-:param event: Leave event.
+:param _: Leave event.
         """
         self.unbind_all('<Button-4>')
         self.unbind_all('<Button-5>')
@@ -149,10 +149,7 @@ swipe) and vertically otherwise (equivalent to a vertical two-finger swipe).
         """
         # Select which method to call based on whether Shift was held down.
         # This is indicated by the LSB of the state.
-        if event.state & 1:
-            callee = self._xview
-        else:
-            callee = self._yview
+        callee = self._xview if event.state & 1 else self._yview
         match _system:
             case 'Linux' if event.num == 4:
                 callee(tk.SCROLL, -1, tk.UNITS)
@@ -163,4 +160,5 @@ swipe) and vertically otherwise (equivalent to a vertical two-finger swipe).
             case 'Windows':
                 callee(tk.SCROLL, -event.delta // 120, tk.UNITS)
             case _:
-                raise ValueError(f'event {event.num} on OS {_system!r} is not supported')
+                message = f'event {event.num} on OS {_system!r} is not supported'
+                raise ValueError(message)
