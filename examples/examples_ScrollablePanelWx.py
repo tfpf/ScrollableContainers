@@ -1,8 +1,8 @@
 #! /usr/bin/env python3
 
 import itertools
-import wx
 
+import wx
 from ScrollableContainers import ScrollablePanelWx
 
 

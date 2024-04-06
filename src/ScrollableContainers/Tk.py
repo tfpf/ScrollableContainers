@@ -2,7 +2,7 @@ __all__ = ['ScrollableFrameTk']
 
 import platform
 import tkinter as tk
-import tkinter.ttk as ttk
+from tkinter import ttk
 
 _system = platform.system()
 

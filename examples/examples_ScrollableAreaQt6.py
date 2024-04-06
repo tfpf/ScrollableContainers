@@ -1,9 +1,9 @@
 #! /usr/bin/env python3
 
 import itertools
+
 from PyQt6.QtCore import QSize
 from PyQt6.QtWidgets import QApplication, QGridLayout, QLabel, QMainWindow, QVBoxLayout
-
 from ScrollableContainers import ScrollableAreaQt6
 
 

@@ -1,7 +1,7 @@
 __all__ = ['ScrollablePanelWx']
 
 import wx
-import wx.lib.scrolledpanel as scrolledpanel
+from wx.lib import scrolledpanel
 
 
 class ScrollablePanelWx(scrolledpanel.ScrolledPanel):
