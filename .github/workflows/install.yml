@@ -1,0 +1,12 @@
+name: install
+on: [push, workflow_dispatch]
+
+jobs:
+  install:
+    name: install on ubuntu-22.04
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - run: pipx install hatch
+      - run: sudo apt install libgtk-3-dev
+      - run: hatch -vv env create dev

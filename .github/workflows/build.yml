@@ -1,0 +1,11 @@
+name: build
+on: [push, workflow_dispatch]
+
+jobs:
+  build:
+    name: build on ubuntu-22.04
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - run: pipx install hatch
+      - run: hatch build
