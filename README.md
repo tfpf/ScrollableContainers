@@ -73,12 +73,13 @@ Add widgets to the `area` attribute of a `ScrollableAreaQt5`/`ScrollableAreaQt6`
 In GTK, containers are widgets, so they can be aligned in other containers.
 
 ```Python
-import gi; gi.require_version('Gtk', '3.0')
-import gi.repository.Gtk as Gtk
 import itertools
 
+import gi; gi.require_version("Gtk", "3.0")
+from gi.repository import Gtk
+
 window = Gtk.Window()
-window.connect('destroy', Gtk.main_quit)
+window.connect("destroy", Gtk.main_quit)
 window.set_default_size(256, 128)
 
 scrolled_window = Gtk.ScrolledWindow()
@@ -91,9 +92,9 @@ grid.set_column_spacing(20)
 scrolled_window.add(grid)
 
 dim = 10
-for (i, j) in itertools.product(range(dim), repeat=2):
+for i, j in itertools.product(range(dim), repeat=2):
     label = Gtk.Label()
-    label.set_label(f'Label\n({i}, {j})')
+    label.set_label(f"Label\n({i}, {j})")
     grid.attach(label, j, i, 1, 1)
 
 window.show_all()
