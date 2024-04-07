@@ -20,6 +20,8 @@ Scrollable containers are currently available for the following GUI toolkits.
 to: the Tcl Core Team, the Python Software Foundation, the wxWidgets Team, the wxPython Team, the Qt Company and
 Riverbank Computing.**
 
+[![Hatch project](https://img.shields.io/badge/%F0%9F%A5%9A-Hatch-4051b5.svg)](https://github.com/pypa/hatch)
+
 [![lint](https://github.com/tfpf/ScrollableContainers/actions/workflows/lint.yml/badge.svg)](https://github.com/tfpf/ScrollableContainers/actions/workflows/lint.yml)
 [![install](https://github.com/tfpf/ScrollableContainers/actions/workflows/install.yml/badge.svg)](https://github.com/tfpf/ScrollableContainers/actions/workflows/install.yml)
 [![build](https://github.com/tfpf/ScrollableContainers/actions/workflows/build.yml/badge.svg)](https://github.com/tfpf/ScrollableContainers/actions/workflows/build.yml)
@@ -41,7 +43,7 @@ Add widgets to the `frame` attribute of a `ScrollableFrameTk` object.
 * Horizontally centres the contents if the window is wider.
 
 ### Notes
-`'<Button-4>'`, `'<Button-5>'` and `'<MouseWheel>'` are bound to all widgets using `bind_all` to handle mouse wheel
+`"<Button-4>"`, `"<Button-5>"` and `"<MouseWheel>"` are bound to all widgets using `bind_all` to handle mouse wheel
 scroll events. Do not `unbind_all` (or `bind_all` another function to) these three sequences!
 
 # wxPython
