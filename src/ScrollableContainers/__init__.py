@@ -1,5 +1,4 @@
 import contextlib
-import importlib
 
 with contextlib.suppress(ImportError):
     from ScrollableContainers._qt5 import ScrollableAreaQt5
