@@ -18,8 +18,8 @@ class ExamplesScrollableFrameTk:
         # Create a scrollable frame.
         scrollable_frame = ScrollableFrameTk(window)
 
-        # Add widgets to the `frame` attribute of the scrollable frame, not to
-        # the scrollable frame itself.
+        # Add widgets to the ``frame`` attribute of the scrollable frame, not
+        # to the scrollable frame itself.
         dim = 10
         for i, j in itertools.product(range(dim), repeat=2):
             label = ttk.Label(scrollable_frame.frame, text=f"Label\n({i}, {j})")

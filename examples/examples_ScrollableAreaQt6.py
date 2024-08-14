@@ -19,7 +19,7 @@ class ExamplesScrollableAreaQt6:
         # Create a scrollable area.
         scrollable_area = ScrollableAreaQt6()
 
-        # Add widgets to the `area` attribute of the scrollable area, not to
+        # Add widgets to the ``area`` attribute of the scrollable area, not to
         # the scrollable area itself.
         dim = 10
         grid_layout = QGridLayout(scrollable_area.area)
