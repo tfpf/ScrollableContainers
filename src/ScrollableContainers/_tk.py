@@ -10,7 +10,8 @@ _system = platform.system()
 class ScrollableFrameTk(ttk.Frame):
     """
     Container with horizontal and vertical scrolling capabilities. Widgets must
-    be added to its `frame` attribute.
+    be added to its ``frame`` attribute. Constructor arguments are passed to
+    the parent constructor.
     """
 
     def __init__(self, *args, **kwargs):
