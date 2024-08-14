@@ -49,13 +49,13 @@ class ScrollableFrameTk(ttk.Frame):
     def _xview(self, *args, width=None):
         """
         Called when a horizontal scroll is requested. Called by other callbacks
-        (`_on_canvas_configure` and `_on_frame_configure`) whenever it is
+        (``_on_canvas_configure`` and ``_on_frame_configure``) whenever it is
         necessary to horizontally realign the contents of the canvas. Scroll
         the view only if the contents are not completely visible. Otherwise,
         move the scrollbar to such a position that they are horizontally
         centred.
 
-        :param args: Tuple which can be passed to `tkinter.Canvas.xview`.
+        :param args: Tuple which can be passed to ``tkinter.Canvas.xview``.
         :param width: Width of the canvas.
         """
         if self._canvas.xview() != (0.0, 1.0):
@@ -74,7 +74,7 @@ class ScrollableFrameTk(ttk.Frame):
         Called when a vertical scroll is requested. Scroll the view only if the
         contents are not completely visible.
 
-        :param args: Tuple which can be passed to `tkinter.Canvas.yview`.
+        :param args: Tuple which can be passed to ``tkinter.Canvas.yview``.
         """
         if self._canvas.yview() != (0.0, 1.0):
             self._canvas.yview(*args)
@@ -103,7 +103,7 @@ class ScrollableFrameTk(ttk.Frame):
 
     def _on_frame_expose(self, _=None):
         """
-        Called when the frame becomes visible. Call `_on_frame_configure` and
+        Called when the frame becomes visible. Call ``_on_frame_configure`` and
         then disable this callback.
 
         This method is necessary because if a scrollable frame is put into,
