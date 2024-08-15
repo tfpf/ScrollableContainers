@@ -17,8 +17,8 @@ class ExamplesScrollablePanelWx:
         # Create a scrollable panel.
         scrollable_panel = ScrollablePanelWx(window)
 
-        # Add widgets to the `panel` attribute of the scrollable panel, not to
-        # the scrollable panel itself.
+        # Add widgets to the ``panel`` attribute of the scrollable panel, not
+        # to the scrollable panel itself.
         dim = 10
         grid_sizer = wx.GridSizer(dim, dim, 20, 20)
         for i, j in itertools.product(range(dim), repeat=2):

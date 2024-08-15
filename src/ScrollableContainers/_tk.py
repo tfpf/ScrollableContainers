@@ -10,7 +10,8 @@ _system = platform.system()
 class ScrollableFrameTk(ttk.Frame):
     """
     Container with horizontal and vertical scrolling capabilities. Widgets must
-    be added to its `frame` attribute.
+    be added to its ``frame`` attribute. Constructor arguments are passed to
+    the parent constructor.
     """
 
     def __init__(self, *args, **kwargs):
@@ -45,16 +46,16 @@ class ScrollableFrameTk(ttk.Frame):
         self._canvas.xview_moveto(0.0)
         self._canvas.yview_moveto(0.0)
 
-    def _xview(self, *args, width=None):
+    def _xview(self, *args, width: int | None = None):
         """
         Called when a horizontal scroll is requested. Called by other callbacks
-        (`_on_canvas_configure` and `_on_frame_configure`) whenever it is
+        (``_on_canvas_configure`` and ``_on_frame_configure``) whenever it is
         necessary to horizontally realign the contents of the canvas. Scroll
         the view only if the contents are not completely visible. Otherwise,
         move the scrollbar to such a position that they are horizontally
         centred.
 
-        :param args: Tuple which can be passed to `tkinter.Canvas.xview`.
+        :param args: Passed to ``tkinter.Canvas.xview``.
         :param width: Width of the canvas.
         """
         if self._canvas.xview() != (0.0, 1.0):
@@ -73,12 +74,12 @@ class ScrollableFrameTk(ttk.Frame):
         Called when a vertical scroll is requested. Scroll the view only if the
         contents are not completely visible.
 
-        :param args: Tuple which can be passed to `tkinter.Canvas.yview`.
+        :param args: Passed to ``tkinter.Canvas.yview``.
         """
         if self._canvas.yview() != (0.0, 1.0):
             self._canvas.yview(*args)
 
-    def _on_canvas_configure(self, event):
+    def _on_canvas_configure(self, event: tk.Event):
         """
         Called when the canvas is resized. Update the scrollable region.
 
@@ -87,7 +88,7 @@ class ScrollableFrameTk(ttk.Frame):
         self._canvas.configure(scrollregion=self._canvas.bbox(tk.ALL))
         self._xview(tk.SCROLL, 0, tk.UNITS, width=event.width)
 
-    def _on_frame_configure(self, _=None):
+    def _on_frame_configure(self, _event: tk.Event | None = None):
         """
         Called when the frame is resized or the canvas is scrolled. Update the
         scrollable region.
@@ -95,14 +96,14 @@ class ScrollableFrameTk(ttk.Frame):
         This method is necessary to handle updates which may occur after the
         GUI loop has started.
 
-        :param _: Configure event.
+        :param _event: Configure event.
         """
         self._canvas.configure(scrollregion=self._canvas.bbox(tk.ALL))
         self._xview(tk.SCROLL, 0, tk.UNITS)
 
-    def _on_frame_expose(self, _=None):
+    def _on_frame_expose(self, _event: tk.Event | None = None):
         """
-        Called when the frame becomes visible. Call `_on_frame_configure` and
+        Called when the frame becomes visible. Call ``_on_frame_configure`` and
         then disable this callback.
 
         This method is necessary because if a scrollable frame is put into,
@@ -112,34 +113,34 @@ class ScrollableFrameTk(ttk.Frame):
         because its frame configure events work differently.) Hence, I try to
         centre the contents again upon an expose event.
 
-        :param _: Expose event.
+        :param _event: Expose event.
         """
         self._on_frame_configure()
         self.frame.unbind("<Expose>", self._on_frame_expose_id)
 
-    def _on_canvas_enter(self, _=None):
+    def _on_canvas_enter(self, _event: tk.Event | None = None):
         """
         Called when the mouse pointer enters the canvas. Set up vertical
         scrolling with the mouse wheel.
 
-        :param _: Enter event.
+        :param _event: Enter event.
         """
         self.bind_all("<Button-4>", self._on_mouse_scroll)
         self.bind_all("<Button-5>", self._on_mouse_scroll)
         self.bind_all("<MouseWheel>", self._on_mouse_scroll)
 
-    def _on_canvas_leave(self, _=None):
+    def _on_canvas_leave(self, _event: tk.Event | None = None):
         """
         Called when the mouse pointer leaves the canvas. Unset vertical
         scrolling with the mouse wheel.
 
-        :param _: Leave event.
+        :param _event: Leave event.
         """
         self.unbind_all("<Button-4>")
         self.unbind_all("<Button-5>")
         self.unbind_all("<MouseWheel>")
 
-    def _on_mouse_scroll(self, event):
+    def _on_mouse_scroll(self, event: tk.Event):
         """
         Called when the mouse wheel is scrolled or a two-finger swipe gesture
         is performed on the touchpad. Ask to scroll the view horizontally if
