@@ -16,6 +16,13 @@ Scrollable containers are currently available for the following GUI toolkits.
 * PyQt5
 * PyQt6
 
+<p align="center">
+ <img src="https://raw.githubusercontent.com/tfpf/ScrollableContainers/main/res/certified_human.svg" />
+</p>
+
+No part of the code in this repository has been written by or in consultation with artificial intelligence chatbots
+such as (but not limited to) Bard and ChatGPT.
+
 **This project is not sponsored or endorsed by, or connected with, any organisation or entity such as but not limited
 to: the Tcl Core Team, the Python Software Foundation, the wxWidgets Team, the wxPython Team, the Qt Company and
 Riverbank Computing.**
