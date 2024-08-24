@@ -65,7 +65,7 @@ class ScrollableFrameTk(ttk.Frame):
         self._xscrollbar.lower()
         self._yscrollbar.lower()
 
-    def _peek_scrollbars(self, ms:int=1000):
+    def _peek_scrollbars(self, ms: int = 1000):
         """
         Show the horizontal and vertical scrollbars. Hide them after a delay.
 
