@@ -41,6 +41,7 @@ class ScrollableFrameTk(ttk.Frame):
         self._window = self._canvas.create_window((0, 0), window=self.frame, anchor=tk.NW)
         self.frame.bind("<Configure>", self._on_frame_configure)
         self._on_frame_expose_id = self.frame.bind("<Expose>", self._on_frame_expose)
+        self._hide_scrollbars_id = None
 
         # Initially, the vertical scrollbar is a hair below its topmost
         # position. Move it to said position. No harm in doing the equivalent
@@ -64,15 +65,16 @@ class ScrollableFrameTk(ttk.Frame):
         self._xscrollbar.lower()
         self._yscrollbar.lower()
 
-    def _peek_scrollbars(self, ms=1000):
+    def _peek_scrollbars(self, ms:int=1000):
         """
-        Show the horizontal and vertical scrollbars, and hide them after a
-        delay.
+        Show the horizontal and vertical scrollbars. Hide them after a delay.
 
         :param ms: Delay in milliseconds.
         """
+        if self._hide_scrollbars_id:
+            self.after_cancel(self._hide_scrollbars_id)
         self._show_scrollbars()
-        self.after(ms, self._hide_scrollbars)
+        self._hide_scrollbars_id = self.after(ms, self._hide_scrollbars)
 
     def _xview(self, *args, width: int | None = None):
         """
@@ -156,6 +158,7 @@ class ScrollableFrameTk(ttk.Frame):
         self.bind_all("<Button-4>", self._on_mouse_scroll)
         self.bind_all("<Button-5>", self._on_mouse_scroll)
         self.bind_all("<MouseWheel>", self._on_mouse_scroll)
+        self._peek_scrollbars()
 
     def _on_canvas_leave(self, _event: tk.Event | None = None):
         """
