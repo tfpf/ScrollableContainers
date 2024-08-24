@@ -48,7 +48,7 @@ Add widgets to the `frame` attribute of a `ScrollableFrameTk` object.
   * Scrolling the mouse wheel while holding down Shift or swiping horizontally with two fingers on the touchpad
     triggers a horizontal scroll.
 * Horizontally centres the contents if the window is wider.
-* Reserves all space for child widgets in the window.
+* Reserves all space in the window for child widgets.
   * The scrollbars do not take up any space. When scrolling or moving the cursor into the window, they are shown
     briefly, and then hidden.
 
