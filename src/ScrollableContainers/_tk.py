@@ -17,20 +17,27 @@ class ScrollableFrameTk(ttk.Frame):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+        # Using the grid geometry manager ensures that the horizontal and
+        # vertical scrollbars do not touch.
+        self._xscrollbar = ttk.Scrollbar(self, orient=tk.HORIZONTAL, command=self._xview)
+        self._xscrollbar.bind("<Enter>", self._on_scrollbar_enter)
+        self._xscrollbar.bind("<Leave>", self._on_scrollbar_leave)
+        self._xscrollbar.grid(row=1, column=0, sticky=tk.EW)
+        self._yscrollbar = ttk.Scrollbar(self, orient=tk.VERTICAL, command=self._yview)
+        self._yscrollbar.bind("<Enter>", self._on_scrollbar_enter)
+        self._yscrollbar.bind("<Leave>", self._on_scrollbar_leave)
+        self._yscrollbar.grid(row=0, column=1, sticky=tk.NS)
+        self._hide_scrollbars_id = None
+
         # Scrollable canvas. This is the widget which actually manages
-        # scrolling. Using the grid geometry manager ensures that the
-        # horizontal and vertical scrollbars do not meet.
+        # scrolling. Initially, it will be above the scrollbars, so the latter
+        # won't be visible.
         self._canvas = tk.Canvas(self)
         self._canvas.bind("<Configure>", self._on_canvas_configure)
         self._canvas.bind("<Enter>", self._on_canvas_enter)
         self._canvas.bind("<Leave>", self._on_canvas_leave)
-        self._canvas.grid(row=0, column=0, sticky=tk.NSEW)
-
-        xscrollbar = ttk.Scrollbar(self, orient=tk.HORIZONTAL, command=self._xview)
-        xscrollbar.grid(row=1, column=0, sticky=tk.EW)
-        yscrollbar = ttk.Scrollbar(self, orient=tk.VERTICAL, command=self._yview)
-        yscrollbar.grid(row=0, column=1, sticky=tk.NS)
-        self._canvas.configure(xscrollcommand=xscrollbar.set, yscrollcommand=yscrollbar.set)
+        self._canvas.configure(xscrollcommand=self._xscrollbar.set, yscrollcommand=self._yscrollbar.set)
+        self._canvas.grid(row=0, column=0, rowspan=2, columnspan=2, sticky=tk.NSEW)
 
         self.grid_rowconfigure(0, weight=1)
         self.grid_columnconfigure(0, weight=1)
@@ -45,6 +52,52 @@ class ScrollableFrameTk(ttk.Frame):
         # for the horizontal scrollbar.
         self._canvas.xview_moveto(0.0)
         self._canvas.yview_moveto(0.0)
+
+    def _show_scrollbars(self):
+        """
+        Move the horizontal and vertical scrollbars above the scrollable
+        canvas, effectively showing them.
+        """
+        self._xscrollbar.lift()
+        self._yscrollbar.lift()
+
+    def _hide_scrollbars(self):
+        """
+        Move the horizontal and vertical scrollbars below the scrollable
+        canvas, effectively hiding them.
+        """
+        self._xscrollbar.lower()
+        self._yscrollbar.lower()
+
+    def _on_scrollbar_enter(self, _event: tk.Event | None = None):
+        """
+        Called when the mouse pointer enters a scrollbar. Cancel the callback
+        which will hide the scollbars.
+
+        :param _event: Enter event.
+        """
+        if self._hide_scrollbars_id:
+            self.after_cancel(self._hide_scrollbars_id)
+
+    def _on_scrollbar_leave(self, _event: tk.Event | None = None, ms: int = 1000):
+        """
+        Called when the mouse pointer leaves a scrollbar. Hide the horizontal
+        and vertical scrollbars afer a delay.
+
+        :param _event: Leave event.
+        :param ms: Delay in milliseconds.
+        """
+        self._hide_scrollbars_id = self.after(ms, self._hide_scrollbars)
+
+    def _peek_scrollbars(self):
+        """
+        Show the horizontal and vertical scrollbars briefly.
+        """
+        # Pretend that the mouse pointer entered and left a scrollbar to avoid
+        # code repetition.
+        self._on_scrollbar_enter()
+        self._show_scrollbars()
+        self._on_scrollbar_leave()
 
     def _xview(self, *args, width: int | None = None):
         """
@@ -128,6 +181,7 @@ class ScrollableFrameTk(ttk.Frame):
         self.bind_all("<Button-4>", self._on_mouse_scroll)
         self.bind_all("<Button-5>", self._on_mouse_scroll)
         self.bind_all("<MouseWheel>", self._on_mouse_scroll)
+        self._peek_scrollbars()
 
     def _on_canvas_leave(self, _event: tk.Event | None = None):
         """
@@ -165,3 +219,4 @@ class ScrollableFrameTk(ttk.Frame):
             case _:
                 message = f"event {event.num} on OS {_system!r} is not supported"
                 raise ValueError(message)
+        self._peek_scrollbars()
