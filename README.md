@@ -52,6 +52,9 @@ Add widgets to the `frame` attribute of a `ScrollableFrameTk` object.
   * The scrollbars do not take up any space. When scrolling or moving the cursor into the window, they are shown
     briefly, and then hidden.
 
+### Demo
+![ScrollableFrameTk_demo](https://github.com/user-attachments/assets/6a035198-0296-49c3-9ef8-1ff0f196a6cf)
+
 ### Notes
 `"<Button-4>"`, `"<Button-5>"` and `"<MouseWheel>"` are bound to all widgets using `bind_all` to handle mouse wheel
 scroll events. Do not `unbind_all` (or `bind_all` another function to) these three sequences!
