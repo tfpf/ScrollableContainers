@@ -20,9 +20,14 @@ class ScrollableFrameTk(ttk.Frame):
         # Using the grid geometry manager ensures that the horizontal and
         # vertical scrollbars do not touch.
         self._xscrollbar = ttk.Scrollbar(self, orient=tk.HORIZONTAL, command=self._xview)
+        self._xscrollbar.bind("<Enter>", self._on_scrollbar_enter)
+        self._xscrollbar.bind("<Leave>", self._on_scrollbar_leave)
         self._xscrollbar.grid(row=1, column=0, sticky=tk.EW)
         self._yscrollbar = ttk.Scrollbar(self, orient=tk.VERTICAL, command=self._yview)
+        self._yscrollbar.bind("<Enter>", self._on_scrollbar_enter)
+        self._yscrollbar.bind("<Leave>", self._on_scrollbar_leave)
         self._yscrollbar.grid(row=0, column=1, sticky=tk.NS)
+        self._hide_scrollbars_id = None
 
         # Scrollable canvas. This is the widget which actually manages
         # scrolling. Initially, it will be above the scrollbars, so the latter
@@ -41,7 +46,6 @@ class ScrollableFrameTk(ttk.Frame):
         self._window = self._canvas.create_window((0, 0), window=self.frame, anchor=tk.NW)
         self.frame.bind("<Configure>", self._on_frame_configure)
         self._on_frame_expose_id = self.frame.bind("<Expose>", self._on_frame_expose)
-        self._hide_scrollbars_id = None
 
         # Initially, the vertical scrollbar is a hair below its topmost
         # position. Move it to said position. No harm in doing the equivalent
@@ -52,7 +56,7 @@ class ScrollableFrameTk(ttk.Frame):
     def _show_scrollbars(self):
         """
         Move the horizontal and vertical scrollbars above the scrollable
-        canvas.
+        canvas, effectively showing them.
         """
         self._xscrollbar.lift()
         self._yscrollbar.lift()
@@ -60,21 +64,40 @@ class ScrollableFrameTk(ttk.Frame):
     def _hide_scrollbars(self):
         """
         Move the horizontal and vertical scrollbars below the scrollable
-        canvas.
+        canvas, effectively hiding them.
         """
         self._xscrollbar.lower()
         self._yscrollbar.lower()
 
-    def _peek_scrollbars(self, ms: int = 1000):
+    def _on_scrollbar_enter(self, _event: tk.Event | None = None):
         """
-        Show the horizontal and vertical scrollbars. Hide them after a delay.
+        Called when the mouse pointer enters a scrollbar. Cancel the callback
+        which will hide the scollbars.
 
-        :param ms: Delay in milliseconds.
+        :param _event: Enter event.
         """
         if self._hide_scrollbars_id:
             self.after_cancel(self._hide_scrollbars_id)
-        self._show_scrollbars()
+
+    def _on_scrollbar_leave(self, _event: tk.Event | None = None, ms: int = 1000):
+        """
+        Called when the mouse pointer leaves a scrollbar. Hide the horizontal
+        and vertical scrollbars afer a delay.
+
+        :param _event: Leave event.
+        :param ms: Delay in milliseconds.
+        """
         self._hide_scrollbars_id = self.after(ms, self._hide_scrollbars)
+
+    def _peek_scrollbars(self):
+        """
+        Show the horizontal and vertical scrollbars briefly.
+        """
+        # Pretend that the mouse pointer entered and left a scrollbar to avoid
+        # code repetition.
+        self._on_scrollbar_enter()
+        self._show_scrollbars()
+        self._on_scrollbar_leave()
 
     def _xview(self, *args, width: int | None = None):
         """
