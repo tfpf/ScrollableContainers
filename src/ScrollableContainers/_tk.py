@@ -21,15 +21,11 @@ class ScrollableFrameTk(ttk.Frame):
         # vertical scrollbars do not touch.
         self._xscrollbar = ttk.Scrollbar(self, orient=tk.HORIZONTAL, command=self._xview)
         self._xscrollbar.bind("<Enter>", self._on_scrollbar_enter)
-        self._xscrollbar.bind("<ButtonPress>", self._on_scrollbar_enter)
         self._xscrollbar.bind("<Leave>", self._on_scrollbar_leave)
-        self._xscrollbar.bind("<ButtonRelease>", self._on_scrollbar_leave)
         self._xscrollbar.grid(row=1, column=0, sticky=tk.EW)
         self._yscrollbar = ttk.Scrollbar(self, orient=tk.VERTICAL, command=self._yview)
         self._yscrollbar.bind("<Enter>", self._on_scrollbar_enter)
-        self._yscrollbar.bind("<ButtonPress>", self._on_scrollbar_enter)
         self._yscrollbar.bind("<Leave>", self._on_scrollbar_leave)
-        self._yscrollbar.bind("<ButtonRelease>", self._on_scrollbar_leave)
         self._yscrollbar.grid(row=0, column=1, sticky=tk.NS)
         self._hide_scrollbars_id = None
 
@@ -75,24 +71,22 @@ class ScrollableFrameTk(ttk.Frame):
 
     def _on_scrollbar_enter(self, _event: tk.Event | None = None):
         """
-        Called whenever it is necessary to keep the scrollbars visible. Cancel
-        the callback which will hide the horizontal and vertical scollbars.
+        Called when the mouse pointer enters a scrollbar. Cancel the callback
+        which will hide the scollbars.
 
-        :param _event: Enter or button event.
+        :param _event: Enter event.
         """
-        print(_event, self._hide_scrollbars_id)
         if self._hide_scrollbars_id:
             self.after_cancel(self._hide_scrollbars_id)
 
     def _on_scrollbar_leave(self, _event: tk.Event | None = None, ms: int = 1000):
         """
-        Called whenever it is no longer necessary to keep the scrollbars
-        visible. Hide the horizontal and vertical scrollbars afer a delay.
+        Called when the mouse pointer leaves a scrollbar. Hide the horizontal
+        and vertical scrollbars afer a delay.
 
-        :param _event: Leave or button event.
+        :param _event: Leave event.
         :param ms: Delay in milliseconds.
         """
-        print(_event, self._hide_scrollbars_id)
         self._hide_scrollbars_id = self.after(ms, self._hide_scrollbars)
 
     def _peek_scrollbars(self):
