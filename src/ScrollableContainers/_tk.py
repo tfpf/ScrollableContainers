@@ -9,21 +9,25 @@ _system = platform.system()
 
 class ScrollableFrameTk(ttk.Frame):
     """
-    Container with horizontal and vertical scrolling capabilities. Widgets must
-    be added to its ``frame`` attribute. Constructor arguments are passed to
-    the parent constructor.
+    Container with horizontal and vertical scrolling capabilities.
+
+    :param master: Parent widget.
+    :param args: Passed to superclass constructor.
+    :param kwargs: Passed to superclass constructor.
     """
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self, master: tk.Misc | None = None, *args, **kwargs):
 
         # Using the grid geometry manager ensures that the horizontal and
         # vertical scrollbars do not touch.
-        self._xscrollbar = ttk.Scrollbar(self, orient=tk.HORIZONTAL, command=self._xview)
+        self._xscrollbar = ttk.Scrollbar(master, orient=tk.HORIZONTAL, command=self._xview)
         self._xscrollbar.bind("<Enter>", self._on_scrollbar_enter)
         self._xscrollbar.bind("<Leave>", self._on_scrollbar_leave)
         self._xscrollbar.grid(row=1, column=0, sticky=tk.EW)
-        self._yscrollbar = ttk.Scrollbar(self, orient=tk.VERTICAL, command=self._yview)
+        # If the parent widget was not specified, use the one automatically
+        # created.
+        master = master or self._xscrollbar.master
+        self._yscrollbar = ttk.Scrollbar(master, orient=tk.VERTICAL, command=self._yview)
         self._yscrollbar.bind("<Enter>", self._on_scrollbar_enter)
         self._yscrollbar.bind("<Leave>", self._on_scrollbar_leave)
         self._yscrollbar.grid(row=0, column=1, sticky=tk.NS)
@@ -32,20 +36,23 @@ class ScrollableFrameTk(ttk.Frame):
         # Scrollable canvas. This is the widget which actually manages
         # scrolling. Initially, it will be above the scrollbars, so the latter
         # won't be visible.
-        self._canvas = tk.Canvas(self)
+        self._canvas = tk.Canvas(master)
         self._canvas.bind("<Configure>", self._on_canvas_configure)
         self._canvas.bind("<Enter>", self._on_canvas_enter)
         self._canvas.bind("<Leave>", self._on_canvas_leave)
         self._canvas.configure(xscrollcommand=self._xscrollbar.set, yscrollcommand=self._yscrollbar.set)
         self._canvas.grid(row=0, column=0, rowspan=2, columnspan=2, sticky=tk.NSEW)
 
-        self.grid_rowconfigure(0, weight=1)
-        self.grid_columnconfigure(0, weight=1)
+        master.grid_rowconfigure(0, weight=1)
+        master.grid_columnconfigure(0, weight=1)
 
-        self.frame = ttk.Frame(self._canvas)
-        self._window = self._canvas.create_window((0, 0), window=self.frame, anchor=tk.NW)
-        self.frame.bind("<Configure>", self._on_frame_configure)
-        self._on_frame_expose_id = self.frame.bind("<Expose>", self._on_frame_expose)
+        # The scrollable frame must be in the canvas for the latter to control
+        # its viewport. Hence, its parent widget isn't what was passed to the
+        # constructor.
+        super().__init__(self._canvas, *args, **kwargs)
+        self._window = self._canvas.create_window((0, 0), window=self, anchor=tk.NW)
+        self.bind("<Configure>", self._on_frame_configure)
+        self._on_frame_expose_id = self.bind("<Expose>", self._on_frame_expose)
 
         # Initially, the vertical scrollbar is a hair below its topmost
         # position. Move it to said position. No harm in doing the equivalent
@@ -120,7 +127,7 @@ class ScrollableFrameTk(ttk.Frame):
             # function with a negative argument. I don't know if this hack is
             # supported (because the Tcl/Tk manual pages say that it must be a
             # fraction between 0 and 1), but it works!
-            self._canvas.xview_moveto((1 - width / self.frame.winfo_width()) / 2)
+            self._canvas.xview_moveto((1 - width / self.winfo_width()) / 2)
 
     def _yview(self, *args):
         """
@@ -169,7 +176,7 @@ class ScrollableFrameTk(ttk.Frame):
         :param _event: Expose event.
         """
         self._on_frame_configure()
-        self.frame.unbind("<Expose>", self._on_frame_expose_id)
+        self.unbind("<Expose>", self._on_frame_expose_id)
 
     def _on_canvas_enter(self, _event: tk.Event | None = None):
         """
