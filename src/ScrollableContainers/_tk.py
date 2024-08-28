@@ -17,17 +17,19 @@ class ScrollableFrameTk(ttk.Frame):
     """
 
     def __init__(self, master: tk.Misc | None = None, *args, **kwargs):
+        self._frame = ttk.Frame(master)
+
+        # If the parent widget was not specified, use the one automatically
+        # created.
+        master = master or self._frame.master
 
         # Using the grid geometry manager ensures that the horizontal and
         # vertical scrollbars do not touch.
-        self._xscrollbar = ttk.Scrollbar(master, orient=tk.HORIZONTAL, command=self._xview)
+        self._xscrollbar = ttk.Scrollbar(self._frame, orient=tk.HORIZONTAL, command=self._xview)
         self._xscrollbar.bind("<Enter>", self._on_scrollbar_enter)
         self._xscrollbar.bind("<Leave>", self._on_scrollbar_leave)
         self._xscrollbar.grid(row=1, column=0, sticky=tk.EW)
-        # If the parent widget was not specified, use the one automatically
-        # created.
-        master = master or self._xscrollbar.master
-        self._yscrollbar = ttk.Scrollbar(master, orient=tk.VERTICAL, command=self._yview)
+        self._yscrollbar = ttk.Scrollbar(self._frame, orient=tk.VERTICAL, command=self._yview)
         self._yscrollbar.bind("<Enter>", self._on_scrollbar_enter)
         self._yscrollbar.bind("<Leave>", self._on_scrollbar_leave)
         self._yscrollbar.grid(row=0, column=1, sticky=tk.NS)
@@ -36,19 +38,19 @@ class ScrollableFrameTk(ttk.Frame):
         # Scrollable canvas. This is the widget which actually manages
         # scrolling. Initially, it will be above the scrollbars, so the latter
         # won't be visible.
-        self._canvas = tk.Canvas(master)
+        self._canvas = tk.Canvas(self._frame)
         self._canvas.bind("<Configure>", self._on_canvas_configure)
         self._canvas.bind("<Enter>", self._on_canvas_enter)
         self._canvas.bind("<Leave>", self._on_canvas_leave)
         self._canvas.configure(xscrollcommand=self._xscrollbar.set, yscrollcommand=self._yscrollbar.set)
         self._canvas.grid(row=0, column=0, rowspan=2, columnspan=2, sticky=tk.NSEW)
 
-        master.grid_rowconfigure(0, weight=1)
-        master.grid_columnconfigure(0, weight=1)
+        self._frame.grid_rowconfigure(0, weight=1)
+        self._frame.grid_columnconfigure(0, weight=1)
 
         # The scrollable frame must be in the canvas for the latter to control
-        # its viewport. Hence, its parent widget isn't what was passed to the
-        # constructor.
+        # its viewport. Hence, its parent widget is the canvas rather than what
+        # what was passed to this constructor.
         super().__init__(self._canvas, *args, **kwargs)
         self._window = self._canvas.create_window((0, 0), window=self, anchor=tk.NW)
         self.bind("<Configure>", self._on_frame_configure)
@@ -59,6 +61,9 @@ class ScrollableFrameTk(ttk.Frame):
         # for the horizontal scrollbar.
         self._canvas.xview_moveto(0.0)
         self._canvas.yview_moveto(0.0)
+
+    def pack(self, *args, **kwargs):
+        self._frame.pack(*args, **kwargs)
 
     def _show_scrollbars(self):
         """
