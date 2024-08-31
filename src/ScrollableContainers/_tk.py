@@ -42,16 +42,20 @@ class ScrollableFrameTk(ttk.Frame):
         self.grid_rowconfigure(0, weight=1)
         self.grid_columnconfigure(0, weight=1)
 
-        self.frame = ttk.Frame(self._canvas)
-        self._window = self._canvas.create_window((0, 0), window=self.frame, anchor=tk.NW)
-        self.frame.bind("<Configure>", self._on_frame_configure)
-        self._on_frame_expose_id = self.frame.bind("<Expose>", self._on_frame_expose)
+        self._frame = ttk.Frame(self._canvas)
+        self._window = self._canvas.create_window((0, 0), window=self._frame, anchor=tk.NW)
+        self._frame.bind("<Configure>", self._on_frame_configure)
+        self._on_frame_expose_id = self._frame.bind("<Expose>", self._on_frame_expose)
 
         # Initially, the vertical scrollbar is a hair below its topmost
         # position. Move it to said position. No harm in doing the equivalent
         # for the horizontal scrollbar.
         self._canvas.xview_moveto(0.0)
         self._canvas.yview_moveto(0.0)
+
+    @property
+    def frame(self):
+        return self._frame
 
     def _show_scrollbars(self):
         """
@@ -120,7 +124,7 @@ class ScrollableFrameTk(ttk.Frame):
             # function with a negative argument. I don't know if this hack is
             # supported (because the Tcl/Tk manual pages say that it must be a
             # fraction between 0 and 1), but it works!
-            self._canvas.xview_moveto((1 - width / self.frame.winfo_width()) / 2)
+            self._canvas.xview_moveto((1 - width / self._frame.winfo_width()) / 2)
 
     def _yview(self, *args):
         """
@@ -169,7 +173,7 @@ class ScrollableFrameTk(ttk.Frame):
         :param _event: Expose event.
         """
         self._on_frame_configure()
-        self.frame.unbind("<Expose>", self._on_frame_expose_id)
+        self._frame.unbind("<Expose>", self._on_frame_expose_id)
 
     def _on_canvas_enter(self, _event: tk.Event | None = None):
         """
