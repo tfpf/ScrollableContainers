@@ -18,7 +18,11 @@ class ScrollableAreaQt6(QScrollArea):
         container = QWidget()
         self.setWidget(container)
         vbox = QVBoxLayout(container)
-        self.area = QWidget()
-        vbox.addWidget(self.area, alignment=Qt.AlignmentFlag.AlignHCenter)
+        self._area = QWidget()
+        vbox.addWidget(self._area, alignment=Qt.AlignmentFlag.AlignHCenter)
         vbox.addStretch()
         self.setWidgetResizable(True)
+
+    @property
+    def area(self):
+        return self._area

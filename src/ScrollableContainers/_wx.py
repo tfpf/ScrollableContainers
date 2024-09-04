@@ -17,6 +17,10 @@ class ScrollablePanelWx(ScrolledPanel):
         # According to the documentation, a sizer is required to calculate the
         # minimum virtual size of the panel.
         vbox = wx.BoxSizer(wx.VERTICAL)
-        self.panel = wx.Panel(self)
-        vbox.Add(self.panel, flag=wx.ALIGN_CENTRE)
+        self._panel = wx.Panel(self)
+        vbox.Add(self._panel, flag=wx.ALIGN_CENTRE)
         self.SetSizer(vbox)
+
+    @property
+    def panel(self):
+        return self._panel
