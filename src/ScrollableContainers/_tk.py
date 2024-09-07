@@ -129,6 +129,7 @@ class ScrollableFrameTk(ttk.Frame):
             # supported (because the Tcl/Tk manual pages say that it must be a
             # fraction between 0 and 1), but it works!
             self._canvas.xview_moveto((1 - width / self._frame.winfo_width()) / 2)
+        self._peek_scrollbars()
 
     def _yview(self, *args):
         """
@@ -139,6 +140,7 @@ class ScrollableFrameTk(ttk.Frame):
         """
         if self._canvas.yview() != (0.0, 1.0):
             self._canvas.yview(*args)
+        self._peek_scrollbars()
 
     def _configure_viewport_explicit(self, event: tk.Event):
         """
@@ -227,4 +229,3 @@ class ScrollableFrameTk(ttk.Frame):
             case _:
                 message = f"event {event.num} on OS {_system!r} is not supported"
                 raise ValueError(message)
-        self._peek_scrollbars()
