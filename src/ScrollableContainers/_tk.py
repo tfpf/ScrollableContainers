@@ -45,10 +45,10 @@ class ScrollableFrameTk(ttk.Frame):
         self._frame = ttk.Frame(self._canvas)
         self._window = self._canvas.create_window((0, 0), window=self._frame, anchor=tk.NW)
         self._frame.bind("<Configure>", self._configure_viewport_implicit)
-        self._frame.bind("<Motion>", self._peek_scrollbars)
         self._configure_viewport_implicit_wrapper_id = self._frame.bind(
             "<Expose>", self._configure_viewport_implicit_wrapper
         )
+        self._frame.bind("<Motion>", self._peek_scrollbars)
 
         # Initially, the vertical scrollbar is a hair below its topmost
         # position. Move it to said position. No harm in doing the equivalent
