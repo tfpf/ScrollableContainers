@@ -100,6 +100,8 @@ class ScrollableFrameTk(ttk.Frame):
     def _peek_scrollbars(self, _event: tk.Event | None = None):
         """
         Show the horizontal and vertical scrollbars briefly.
+
+        :param _event: Motion event.
         """
         self._cancel_hide_scrollbars()
         self._show_scrollbars()
@@ -206,8 +208,7 @@ class ScrollableFrameTk(ttk.Frame):
         is performed on the touchpad. Scroll the viewport horizontally if the
         mouse wheel is scrolled with Shift held down (equivalent to a vertical
         two-finger swipe with Shift held down or a horizontal two-finger swipe)
-        and vertically otherwise (equivalent to a horizontal two-finger swipe
-        with Shift held down or a vertical two-finger swipe).
+        and vertically otherwise (equivalent to a vertical two-finger swipe).
 
         :param event: Scroll event.
         """
