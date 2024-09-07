@@ -20,12 +20,12 @@ class ScrollableFrameTk(ttk.Frame):
         # Using the grid geometry manager ensures that the horizontal and
         # vertical scrollbars do not touch.
         self._xscrollbar = ttk.Scrollbar(self, orient=tk.HORIZONTAL, command=self._xview)
-        self._xscrollbar.bind("<Enter>", self._on_scrollbar_enter)
-        self._xscrollbar.bind("<Leave>", self._on_scrollbar_leave)
+        self._xscrollbar.bind("<Enter>", self._cancel_hide_scrollbars)
+        self._xscrollbar.bind("<Leave>", self._schedule_hide_scrollbars)
         self._xscrollbar.grid(row=1, column=0, sticky=tk.EW)
         self._yscrollbar = ttk.Scrollbar(self, orient=tk.VERTICAL, command=self._yview)
-        self._yscrollbar.bind("<Enter>", self._on_scrollbar_enter)
-        self._yscrollbar.bind("<Leave>", self._on_scrollbar_leave)
+        self._yscrollbar.bind("<Enter>", self._cancel_hide_scrollbars)
+        self._yscrollbar.bind("<Leave>", self._schedule_hide_scrollbars)
         self._yscrollbar.grid(row=0, column=1, sticky=tk.NS)
         self._hide_scrollbars_id = None
 
@@ -33,9 +33,9 @@ class ScrollableFrameTk(ttk.Frame):
         # scrolling. Initially, it will be above the scrollbars, so the latter
         # won't be visible.
         self._canvas = tk.Canvas(self)
-        self._canvas.bind("<Configure>", self._on_canvas_configure)
-        self._canvas.bind("<Enter>", self._on_canvas_enter)
-        self._canvas.bind("<Leave>", self._on_canvas_leave)
+        self._canvas.bind("<Configure>", self._configure_viewport_explicit)
+        self._canvas.bind("<Enter>", self._enable_scrolling)
+        self._canvas.bind("<Leave>", self._disable_scrolling)
         self._canvas.configure(xscrollcommand=self._xscrollbar.set, yscrollcommand=self._yscrollbar.set)
         self._canvas.grid(row=0, column=0, rowspan=2, columnspan=2, sticky=tk.NSEW)
 
@@ -44,9 +44,9 @@ class ScrollableFrameTk(ttk.Frame):
 
         self._frame = ttk.Frame(self._canvas)
         self._window = self._canvas.create_window((0, 0), window=self._frame, anchor=tk.NW)
-        self._frame.bind("<Configure>", self._on_frame_configure)
+        self._frame.bind("<Configure>", self._configure_viewport_implicit)
         self._frame.bind("<Motion>", self._peek_scrollbars)
-        self._on_frame_expose_id = self._frame.bind("<Expose>", self._on_frame_expose)
+        self._configure_viewport_implicit_wrapper_id = self._frame.bind("<Expose>", self._configure_viewport_implicit_wrapper)
 
         # Initially, the vertical scrollbar is a hair below its topmost
         # position. Move it to said position. No harm in doing the equivalent
@@ -61,7 +61,8 @@ class ScrollableFrameTk(ttk.Frame):
     def _show_scrollbars(self):
         """
         Move the horizontal and vertical scrollbars above the scrollable
-        canvas (if they are active), effectively showing them.
+        canvas (if the viewport does not show everything in their respective
+        dimensions), effectively showing them.
         """
         if self._canvas.xview() != (0.0, 1.0):
             self._xscrollbar.lift()
@@ -76,17 +77,17 @@ class ScrollableFrameTk(ttk.Frame):
         self._xscrollbar.lower()
         self._yscrollbar.lower()
 
-    def _on_scrollbar_enter(self, _event: tk.Event | None = None):
+    def _cancel_hide_scrollbars(self, _event: tk.Event | None = None):
         """
         Called when the mouse pointer enters a scrollbar. Cancel the callback
-        which will hide the scollbars.
+        which will hide the scrollbars.
 
         :param _event: Enter event.
         """
         if self._hide_scrollbars_id:
             self.after_cancel(self._hide_scrollbars_id)
 
-    def _on_scrollbar_leave(self, _event: tk.Event | None = None, ms: int = 1000):
+    def _schedule_hide_scrollbars(self, _event: tk.Event | None = None, ms: int = 1000):
         """
         Called when the mouse pointer leaves a scrollbar. Hide the horizontal
         and vertical scrollbars afer a delay.
@@ -100,20 +101,18 @@ class ScrollableFrameTk(ttk.Frame):
         """
         Show the horizontal and vertical scrollbars briefly.
         """
-        # Pretend that the mouse pointer entered and left a scrollbar to avoid
-        # code repetition.
-        self._on_scrollbar_enter()
+        self._cancel_hide_scrollbars()
         self._show_scrollbars()
-        self._on_scrollbar_leave()
+        self._schedule_hide_scrollbars()
 
     def _xview(self, *args, width: int | None = None):
         """
         Called when a horizontal scroll is requested. Called by other callbacks
-        (``_on_canvas_configure`` and ``_on_frame_configure``) whenever it is
-        necessary to horizontally realign the contents of the canvas. Scroll
-        the view only if the contents are not completely visible. Otherwise,
-        move the scrollbar to such a position that they are horizontally
-        centred.
+        (``_configure_viewport_explicit`` and ``_configure_viewport_implicit``)
+        whenever it is necessary to horizontally realign the contents of the
+        canvas. Scroll the viewport only if it does not show everything in the
+        horizontal dimension. Otherwise, horizontally centre the contents of
+        the canvas.
 
         :param args: Passed to ``tkinter.Canvas.xview``.
         :param width: Width of the canvas.
@@ -131,27 +130,27 @@ class ScrollableFrameTk(ttk.Frame):
 
     def _yview(self, *args):
         """
-        Called when a vertical scroll is requested. Scroll the view only if the
-        contents are not completely visible.
+        Called when a vertical scroll is requested. Scroll the viewport only if
+        it does not show everything in the vertical dimension.
 
         :param args: Passed to ``tkinter.Canvas.yview``.
         """
         if self._canvas.yview() != (0.0, 1.0):
             self._canvas.yview(*args)
 
-    def _on_canvas_configure(self, event: tk.Event):
+    def _configure_viewport_explicit(self, event: tk.Event):
         """
-        Called when the canvas is resized. Update the scrollable region.
+        Called when the canvas is resized. Update the viewport.
 
         :param event: Configure event.
         """
         self._canvas.configure(scrollregion=self._canvas.bbox(tk.ALL))
         self._xview(tk.SCROLL, 0, tk.UNITS, width=event.width)
 
-    def _on_frame_configure(self, _event: tk.Event | None = None):
+    def _configure_viewport_implicit(self, _event: tk.Event | None = None):
         """
         Called when the frame is resized or the canvas is scrolled. Update the
-        scrollable region.
+        viewport.
 
         This method is necessary to handle updates which may occur after the
         GUI loop has started.
@@ -161,10 +160,10 @@ class ScrollableFrameTk(ttk.Frame):
         self._canvas.configure(scrollregion=self._canvas.bbox(tk.ALL))
         self._xview(tk.SCROLL, 0, tk.UNITS)
 
-    def _on_frame_expose(self, _event: tk.Event | None = None):
+    def _configure_viewport_implicit_wrapper(self, _event: tk.Event | None = None):
         """
-        Called when the frame becomes visible. Call ``_on_frame_configure`` and
-        then disable this callback.
+        Called when the frame becomes visible. Call
+        ``_configure_viewport_implicit`` and then disable this callback.
 
         This method is necessary because if a scrollable frame is put into,
         say, a notebook (as opposed to a toplevel window), and the canvas is
@@ -175,24 +174,25 @@ class ScrollableFrameTk(ttk.Frame):
 
         :param _event: Expose event.
         """
-        self._on_frame_configure()
-        self._frame.unbind("<Expose>", self._on_frame_expose_id)
+        self._configure_viewport_implicit()
+        self._frame.unbind("<Expose>", self._configure_viewport_implicit_wrapper_id)
 
-    def _on_canvas_enter(self, _event: tk.Event | None = None):
+    def _enable_scrolling(self, _event: tk.Event | None = None):
         """
-        Called when the mouse pointer enters the canvas. Set up vertical
-        scrolling with the mouse wheel.
+        Called when the mouse pointer enters the canvas. Start listening for
+        scroll events.
 
         :param _event: Enter event.
         """
-        self.bind_all("<Button-4>", self._on_mouse_scroll)
-        self.bind_all("<Button-5>", self._on_mouse_scroll)
-        self.bind_all("<MouseWheel>", self._on_mouse_scroll)
+        self.bind_all("<Button-4>", self._scroll_viewport)
+        self.bind_all("<Button-5>", self._scroll_viewport)
+        self.bind_all("<MouseWheel>", self._scroll_viewport)
 
-    def _on_canvas_leave(self, _event: tk.Event | None = None):
+    def _disable_scrolling(self, _event: tk.Event | None = None):
         """
-        Called when the mouse pointer leaves the canvas. Unset vertical
-        scrolling with the mouse wheel.
+        Called when the mouse pointer leaves the canvas. Stop listening for
+        scroll events, allowing some other scrollable frame to listen for and
+        respond to scroll events independently of this one.
 
         :param _event: Leave event.
         """
@@ -200,13 +200,14 @@ class ScrollableFrameTk(ttk.Frame):
         self.unbind_all("<Button-5>")
         self.unbind_all("<MouseWheel>")
 
-    def _on_mouse_scroll(self, event: tk.Event):
+    def _scroll_viewport(self, event: tk.Event):
         """
         Called when the mouse wheel is scrolled or a two-finger swipe gesture
-        is performed on the touchpad. Ask to scroll the view horizontally if
-        the mouse wheel is scrolled with Shift held down (equivalent to a
-        horizontal two-finger swipe) and vertically otherwise (equivalent to a
-        vertical two-finger swipe).
+        is performed on the touchpad. Scroll the viewport horizontally if the
+        mouse wheel is scrolled with Shift held down (equivalent to a vertical
+        two-finger swipe with Shift held down or a horizontal two-finger swipe)
+        and vertically otherwise (equivalent to a horizontal two-finger swipe
+        with Shift held down or a vertical two-finger swipe).
 
         :param event: Scroll event.
         """
