@@ -45,6 +45,7 @@ class ScrollableFrameTk(ttk.Frame):
         self._frame = ttk.Frame(self._canvas)
         self._window = self._canvas.create_window((0, 0), window=self._frame, anchor=tk.NW)
         self._frame.bind("<Configure>", self._on_frame_configure)
+        self._frame.bind("<Motion>", self._peek_scrollbars)
         self._on_frame_expose_id = self._frame.bind("<Expose>", self._on_frame_expose)
 
         # Initially, the vertical scrollbar is a hair below its topmost
@@ -60,10 +61,12 @@ class ScrollableFrameTk(ttk.Frame):
     def _show_scrollbars(self):
         """
         Move the horizontal and vertical scrollbars above the scrollable
-        canvas, effectively showing them.
+        canvas (if they are active), effectively showing them.
         """
-        self._xscrollbar.lift()
-        self._yscrollbar.lift()
+        if self._canvas.xview() != (0.0, 1.0):
+            self._xscrollbar.lift()
+        if self._canvas.yview() != (0.0, 1.0):
+            self._yscrollbar.lift()
 
     def _hide_scrollbars(self):
         """
@@ -93,7 +96,7 @@ class ScrollableFrameTk(ttk.Frame):
         """
         self._hide_scrollbars_id = self.after(ms, self._hide_scrollbars)
 
-    def _peek_scrollbars(self):
+    def _peek_scrollbars(self, _event: tk.Event | None = None):
         """
         Show the horizontal and vertical scrollbars briefly.
         """
@@ -185,7 +188,6 @@ class ScrollableFrameTk(ttk.Frame):
         self.bind_all("<Button-4>", self._on_mouse_scroll)
         self.bind_all("<Button-5>", self._on_mouse_scroll)
         self.bind_all("<MouseWheel>", self._on_mouse_scroll)
-        self._peek_scrollbars()
 
     def _on_canvas_leave(self, _event: tk.Event | None = None):
         """
