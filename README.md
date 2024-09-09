@@ -53,7 +53,7 @@ Add widgets to the `frame` attribute of a `ScrollableFrameTk` object.
     briefly, and then hidden.
 
 ### Demo
-![ScrollableFrameTk_demo](https://github.com/user-attachments/assets/52d5cb6e-94ed-4bb0-8a6b-6ee7a085c042)
+![ScrollableFrameTk_demo](https://github.com/user-attachments/assets/205a5ecd-5c99-4144-9bba-29be4c55fbf4)
 
 ### Notes
 `"<Button-4>"`, `"<Button-5>"` and `"<MouseWheel>"` are bound to all widgets using `bind_all` to handle mouse wheel
