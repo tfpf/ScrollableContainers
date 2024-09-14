@@ -3,7 +3,7 @@ on: [push, workflow_dispatch]
 
 jobs:
   build:
-    name: Lint, install and package on amd64/archlinux:base
+    name: lint, install and package on amd64/archlinux:base
     runs-on: ubuntu-22.04
     container: amd64/archlinux:base
     steps:
