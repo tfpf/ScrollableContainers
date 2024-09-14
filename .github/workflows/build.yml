@@ -7,7 +7,7 @@ jobs:
     container: amd64/archlinux:base
     steps:
       - uses: actions/checkout@v4
-      - run: pacman -S --needed python-pipx python-wxpython
+      - run: pacman -Sy --needed python-pipx python-wxpython
       - run: pipx install hatch
       - run: hatch fmt --check
       - run: hatch -vv env create dev
