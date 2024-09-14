@@ -3,9 +3,11 @@ on: [push, workflow_dispatch]
 
 jobs:
   build:
-    name: build on ubuntu-22.04
-    runs-on: ubuntu-22.04
+    container: amd64/archlinux:base
     steps:
       - uses: actions/checkout@v4
+      - run: sudo pacman -S --needed python-pipx python-wxpython
       - run: pipx install hatch
+      - run: hatch fmt --check
+      - run: hatch -vv env create dev
       - run: hatch build
