@@ -8,7 +8,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: pacman -Syu --needed --noconfirm python-pipx python-wxpython
-      - run: pipx install hatch && pipx ensurepath
-      - run: hatch fmt --check
-      - run: hatch -vv env create dev
-      - run: hatch build
+      - run: pipx install hatch
+      - run: ~/.local/bin/hatch fmt --check
+      - run: ~/.local/bin/hatch -vv env create dev
+      - run: ~/.local/bin/hatch build
