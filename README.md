@@ -29,8 +29,6 @@ Riverbank Computing.**
 
 [![Hatch project](https://img.shields.io/badge/%F0%9F%A5%9A-Hatch-4051b5.svg)](https://github.com/pypa/hatch)
 
-[![lint](https://github.com/tfpf/ScrollableContainers/actions/workflows/lint.yml/badge.svg)](https://github.com/tfpf/ScrollableContainers/actions/workflows/lint.yml)
-[![install](https://github.com/tfpf/ScrollableContainers/actions/workflows/install.yml/badge.svg)](https://github.com/tfpf/ScrollableContainers/actions/workflows/install.yml)
 [![build](https://github.com/tfpf/ScrollableContainers/actions/workflows/build.yml/badge.svg)](https://github.com/tfpf/ScrollableContainers/actions/workflows/build.yml)
 
 # Tkinter
