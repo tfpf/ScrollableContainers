@@ -17,7 +17,7 @@ Scrollable containers are currently available for the following GUI toolkits.
 * PyQt6
 
 <p align="center">
- <img src="https://raw.githubusercontent.com/tfpf/ScrollableContainers/main/res/certified_human.svg" />
+ <img src="https://github.com/user-attachments/assets/e9d1e78e-c0fd-4d87-93f6-e293ddef31ba" />
 </p>
 
 No part of the code in this repository has been written by or in consultation with artificial intelligence chatbots
@@ -47,8 +47,8 @@ Add widgets to the `frame` attribute of a `ScrollableFrameTk` object.
     triggers a horizontal scroll.
 * Horizontally centres the contents if the window is wider.
 * Reserves all space in the window for child widgets.
-  * The scrollbars do not take up any space. When scrolling or moving the cursor into the window, they are shown
-    briefly, and then hidden.
+  * The scrollbars do not take up any space. When scrolling or moving the cursor in the window, they are shown briefly,
+    and then hidden.
 
 ### Demo
 ![ScrollableFrameTk_demo](https://github.com/user-attachments/assets/205a5ecd-5c99-4144-9bba-29be4c55fbf4)
