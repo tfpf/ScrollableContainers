@@ -17,7 +17,7 @@ Scrollable containers are currently available for the following GUI toolkits.
 * PyQt6
 
 <p align="center">
- <img src="https://raw.githubusercontent.com/tfpf/ScrollableContainers/main/res/certified_human.svg" />
+ <img src="https://github.com/user-attachments/assets/e9d1e78e-c0fd-4d87-93f6-e293ddef31ba" />
 </p>
 
 No part of the code in this repository has been written by or in consultation with artificial intelligence chatbots
