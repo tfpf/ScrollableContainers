@@ -20,8 +20,8 @@ Scrollable containers are currently available for the following GUI toolkits.
  <img src="https://github.com/user-attachments/assets/e9d1e78e-c0fd-4d87-93f6-e293ddef31ba" />
 </p>
 
-No part of the code in this repository has been written by or in consultation with artificial intelligence chatbots
-such as (but not limited to) Bard and ChatGPT.
+No part of the code in this repository has been written by or in consultation with artificial intelligence chatbots.
+All of it is purely a product of natural intelligence (or stupidity, as the case may be).
 
 **This project is not sponsored or endorsed by, or connected with, any organisation or entity such as but not limited
 to: the Tcl Core Team, the Python Software Foundation, the wxWidgets Team, the wxPython Team, the Qt Company and
