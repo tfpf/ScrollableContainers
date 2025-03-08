@@ -216,18 +216,22 @@ class ScrollableFrameTk(ttk.Frame):
 
         :param event: Scroll event.
         """
-        # Select which method to call based on whether Shift was held down.
-        # This is indicated by the LSB of the state.
-        callee = self._xview if event.state & 1 else self._yview
         match _system:
             case "Linux" if event.num == 4:
-                callee(tk.SCROLL, -1, tk.UNITS)
+                amount = -1
             case "Linux" if event.num == 5:
-                callee(tk.SCROLL, 1, tk.UNITS)
+                amount = 1
             case "Darwin":
-                callee(tk.SCROLL, -event.delta, tk.UNITS)
+                amount = -event.delta
             case "Windows":
-                callee(tk.SCROLL, -event.delta // 120, tk.UNITS)
+                amount = -event.delta // 120
             case _:
                 message = f"event {event.num} on OS {_system!r} is not supported"
                 raise ValueError(message)
+
+        # Select the method to call based on whether Shift was held down. This
+        # is indicated by the LSB of the state.
+        if event.state & 1:
+            self._xview(tk.SCROLL, amount, tk.UNITS)
+        else:
+            self._yview(tk.SCROLL, amount, tk.UNITS)
