@@ -218,13 +218,13 @@ class ScrollableFrameTk(ttk.Frame):
         """
         match _system:
             case "Linux" if event.num == 4:
-                scroll_amount = -1
+                amount = -1
             case "Linux" if event.num == 5:
-                scroll_amount = 1
+                amount = 1
             case "Darwin":
-                scroll_amount = -event.delta
+                amount = -event.delta
             case "Windows":
-                scroll_amount = -event.delta // 120
+                amount = -event.delta // 120
             case _:
                 message = f"event {event.num} on OS {_system!r} is not supported"
                 raise ValueError(message)
@@ -232,6 +232,6 @@ class ScrollableFrameTk(ttk.Frame):
         # Select the method to call based on whether Shift was held down. This
         # is indicated by the LSB of the state.
         if event.state & 1:
-            self._xview(tk.SCROLL, scroll_amount, tk.UNITS)
+            self._xview(tk.SCROLL, amount, tk.UNITS)
         else:
-            self._yview(tk.SCROLL, scroll_amount, tk.UNITS)
+            self._yview(tk.SCROLL, amount, tk.UNITS)
