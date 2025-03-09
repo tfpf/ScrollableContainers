@@ -1,6 +1,7 @@
 import unittest
-import tkinter as tk
+
 from ScrollableContainers import ScrollableFrameTk
+
 
 class TestTk(unittest.TestCase):
     def setUp(self):
