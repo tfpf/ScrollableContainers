@@ -109,7 +109,7 @@ class ScrollableFrameTk(ttk.Frame):
         self._show_scrollbars()
         self._schedule_hide_scrollbars()
 
-    def _xview(self, action: str, fraction_or_amount: float | int, what: str | None = None, *, width: int | None = None):
+    def _xview(self, action: str, fraction_or_amount: float, what: str | None = None, *, width: int | None = None):
         """
         Called when a horizontal scroll is requested. Called by other callbacks
         (``_configure_viewport_explicit`` and ``_configure_viewport_implicit``)
@@ -135,7 +135,7 @@ class ScrollableFrameTk(ttk.Frame):
             self._canvas.xview_moveto((1 - width / self._frame.winfo_width()) / 2)
         self._peek_scrollbars()
 
-    def _yview(self, action:str,fraction_or_amount:float|int,what:str|None=None):
+    def _yview(self, action: str, fraction_or_amount: float, what: str | None = None):
         """
         Called when a vertical scroll is requested. Scroll the viewport only if
         it does not show everything in the vertical dimension.
@@ -145,7 +145,7 @@ class ScrollableFrameTk(ttk.Frame):
         :param what: Third argument of ``tkinter.Canvas.yview``.
         """
         if self._canvas.yview() != (0.0, 1.0):
-            self._canvas.yview(action,fraction_or_amount,what)
+            self._canvas.yview(action, fraction_or_amount, what)
         self._peek_scrollbars()
 
     def _configure_viewport_explicit(self, event: tk.Event):
