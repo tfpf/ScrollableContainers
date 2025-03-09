@@ -57,7 +57,7 @@ class ScrollableFrameTk(ttk.Frame):
         self._canvas.yview_moveto(0.0)
 
     @property
-    def frame(self):
+    def frame(self) -> ttk.Frame:
         return self._frame
 
     def _show_scrollbars(self):
@@ -109,7 +109,7 @@ class ScrollableFrameTk(ttk.Frame):
         self._show_scrollbars()
         self._schedule_hide_scrollbars()
 
-    def _xview(self, *args, width: int | None = None):
+    def _xview(self, action: str, fraction_or_amount: float, what: str | None = None, *, width: int | None = None):
         """
         Called when a horizontal scroll is requested. Called by other callbacks
         (``_configure_viewport_explicit`` and ``_configure_viewport_implicit``)
@@ -118,11 +118,13 @@ class ScrollableFrameTk(ttk.Frame):
         horizontal dimension. Otherwise, horizontally centre the contents of
         the canvas.
 
-        :param args: Passed to ``tkinter.Canvas.xview``.
-        :param width: Width of the canvas.
+        :param action: First argument of ``tkinter.Canvas.xview``.
+        :param fraction_or_amount: Second argument of ``tkinter.Canvas.xview``.
+        :param what: Third argument of ``tkinter.Canvas.xview``.
+        :param width: Width of the canvas. Will be queried if ``None``.
         """
         if self._canvas.xview() != (0.0, 1.0):
-            self._canvas.xview(*args)
+            self._canvas.xview(action, fraction_or_amount, what)
         else:
             width = width or self._canvas.winfo_width()
 
@@ -133,15 +135,17 @@ class ScrollableFrameTk(ttk.Frame):
             self._canvas.xview_moveto((1 - width / self._frame.winfo_width()) / 2)
         self._peek_scrollbars()
 
-    def _yview(self, *args):
+    def _yview(self, action: str, fraction_or_amount: float, what: str | None = None):
         """
         Called when a vertical scroll is requested. Scroll the viewport only if
         it does not show everything in the vertical dimension.
 
-        :param args: Passed to ``tkinter.Canvas.yview``.
+        :param action: First argument of ``tkinter.Canvas.yview``.
+        :param fraction_or_amount: Second argument of ``tkinter.Canvas.yview``.
+        :param what: Third argument of ``tkinter.Canvas.yview``.
         """
         if self._canvas.yview() != (0.0, 1.0):
-            self._canvas.yview(*args)
+            self._canvas.yview(action, fraction_or_amount, what)
         self._peek_scrollbars()
 
     def _configure_viewport_explicit(self, event: tk.Event):
