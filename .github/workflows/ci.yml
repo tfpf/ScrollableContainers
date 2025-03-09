@@ -1,22 +1,20 @@
-name: build
+name: ci
 on: [push, workflow_dispatch]
 
 jobs:
-  build:
-    name: lint, install and package on amd64/archlinux:base
+  ci:
+    name: CI on amd64/archlinux:base
     runs-on: ubuntu-22.04
     container: amd64/archlinux:base
     steps:
       - uses: actions/checkout@v4
       - run: |
           pacman -Syu --needed --noconfirm python-pipx python-wxpython
-          pipx install hatch
-          pipx ensurepath
+          pipx install --global hatch
         name: Install dependencies
-      # Use the full path because Hatch is not found for some reason.
-      - run: ~/.local/bin/hatch fmt --check
+      - run: hatch fmt --check
         name: Lint
-      - run: ~/.local/bin/hatch -vv env create dev
+      - run: hatch -vv env create dev
         name: Create editable installation
-      - run: ~/.local/bin/hatch build
+      - run: hatch build
         name: Package into tarball and wheel
