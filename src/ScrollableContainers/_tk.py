@@ -2,6 +2,7 @@ __all__ = ["ScrollableFrameTk"]
 
 import platform
 import tkinter as tk
+from collections.abc import Callable
 from tkinter import ttk
 
 _system = platform.system()
@@ -19,13 +20,9 @@ class ScrollableFrameTk(ttk.Frame):
 
         # Using the grid geometry manager ensures that the horizontal and
         # vertical scrollbars do not touch.
-        self._xscrollbar = ttk.Scrollbar(self, orient=tk.HORIZONTAL, command=self._xview)
-        self._xscrollbar.bind("<Enter>", self._cancel_hide_scrollbars)
-        self._xscrollbar.bind("<Leave>", self._schedule_hide_scrollbars)
+        self._xscrollbar = self._scrollbar(tk.HORIZONTAL, self._xview)
         self._xscrollbar.grid(row=1, column=0, sticky=tk.EW)
-        self._yscrollbar = ttk.Scrollbar(self, orient=tk.VERTICAL, command=self._yview)
-        self._yscrollbar.bind("<Enter>", self._cancel_hide_scrollbars)
-        self._yscrollbar.bind("<Leave>", self._schedule_hide_scrollbars)
+        self._yscrollbar = self._scrollbar(tk.VERTICAL, self._yview)
         self._yscrollbar.grid(row=0, column=1, sticky=tk.NS)
         self._hide_scrollbars_id = None
 
@@ -55,6 +52,12 @@ class ScrollableFrameTk(ttk.Frame):
         # for the horizontal scrollbar.
         self._canvas.xview_moveto(0.0)
         self._canvas.yview_moveto(0.0)
+
+    def _scrollbar(self, orient: str, command: Callable[..., None]) -> ttk.Scrollbar:
+        scrollbar = ttk.Scrollbar(self, orient=orient, command=command)
+        scrollbar.bind("<Enter>", self._cancel_hide_scrollbars)
+        scrollbar.bind("<Leave>", self._schedule_hide_scrollbars)
+        return scrollbar
 
     @property
     def frame(self) -> ttk.Frame:
