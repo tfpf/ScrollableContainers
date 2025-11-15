@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "ScrollableContainers"
-version = "2.2.4"
+version = "2.2.5"
 authors = [
     { name = "Vishal Pankaj Chandratreya" },
 ]
