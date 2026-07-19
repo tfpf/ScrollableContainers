@@ -1,4 +1,7 @@
 import contextlib as _contextlib
+from importlib.metadata import version as _version
+
+__version__ = _version("ScrollableContainers")
 
 with _contextlib.suppress(ImportError):
     from ScrollableContainers._qt5 import ScrollableAreaQt5
